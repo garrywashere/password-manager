@@ -8,6 +8,7 @@ This Python-based Password Manager is designed as part of the OCR Computer Scien
 - **Password Generation:** Provides a tool to generate strong, random passwords.
 - **Data Security:** Implements secure practices for storing and handling sensitive information.
 - **User Interface:** A simple and intuitive web interface for user interaction.
+- **Local Storage:** Provides peace of mind when data is stored locally completely under the users control.
 
 <!-- ## Requirements
 - Python 3.x
