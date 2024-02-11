@@ -30,3 +30,9 @@ class User:
                 or query in login.website
             ):
                 return login
+
+    def list_logins(self):
+        logins = {}
+        for login in self.__logins:
+            logins[login.username] = [login.email, login.website]
+        return logins
