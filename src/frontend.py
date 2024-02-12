@@ -1,25 +1,28 @@
 from flask import Flask, render_template, request
 from src import backend
-import pickle
+import pickle, os
 
 app = Flask(__name__, template_folder="../templates", static_folder="../static")
 
 
 # New User
 @app.route("/user/new", methods=["GET", "POST"])
-def new_user(title="New User"):
+def new_user():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
 
-        new_user = backend.User(username, password)
-        with open(f"./data/{username}.bin", "wb") as file:
-            pickle.dump(new_user, file)
-        print("user added")
+        if os.path.exists(f"./data/{username}.bin"):
+            return render_template("user-new.html", error="Username Taken")
+        else:
+            new_user = backend.User(username, password)
+            with open(f"./data/{username}.bin", "wb") as file:
+                pickle.dump(new_user, file)
+            print("user added")
 
-        return "user added", 200
+            return "user added", 200
 
-    return render_template("user-new.html")
+    return render_template("user-new.html", title="New User")
 
 
 # Login
