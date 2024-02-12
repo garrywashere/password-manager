@@ -1,1 +1,18 @@
+{% extends 'template.html' %} {% block body %}
 
+<h1>Logins</h1>
+
+<ul>
+  {% for key, value in logins.items() %}
+  <li>
+    {{ key }}
+    <ul>
+      {% for item in value %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

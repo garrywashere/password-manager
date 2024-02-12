@@ -1,0 +1,15 @@
+{% extends 'template.html' %} {% block body %}
+<h1>Welcome</h1>
+
+<ul>
+    <li><button onclick="location.href='/user/login'">Login</button></li>
+    <li><button onclick="location.href='/user/new'">Sign up</button></li>
+    <li><button onclick="location.href='/user/logout'">Logout</button></li>
+    <br>
+    <li><button onclick="location.href='/login/new'">New Login</button></li>
+    <li><button onclick="location.href='/logins/list'">List Logins</button></li>
+
+</ul>
+
+<p>2024 © Password Manager</p>
+{% endblock %}
