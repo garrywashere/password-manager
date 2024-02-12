@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from src import backend
-import pickle, os, argon2
+import pickle, os
 
 app = Flask(__name__, template_folder="../templates", static_folder="../static")
 
@@ -10,7 +10,7 @@ app = Flask(__name__, template_folder="../templates", static_folder="../static")
 def new_user():
     if request.method == "POST":
         username = request.form["username"]
-        password = hasher.hash(request.form["password"])
+        password = request.form["password"]
 
         if os.path.exists(f"./data/{username}.bin"):
             return render_template("user-new.html", error="Username Taken")
@@ -26,6 +26,24 @@ def new_user():
 
 
 # Login
+@app.route("/user/login", methods=["GET", "POST"])
+def login_user():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        if not os.path.exists(f"./data/{username}.bin"):
+            return render_template("user-login.html", error="Username not recognised")
+        else:
+            with open(f"./data/{username}.bin", "rb") as file:
+                user = pickle.load(file)
+            if user.verify_password(password):
+                return "login succeeded", 200
+            else:
+                return render_template("user-login.html", error="Password incorrect")
+
+    return render_template("user-login.html", title="Login")
+
 
 # New Login
 
