@@ -1,12 +1,31 @@
-from flask import Flask
+from flask import Flask, render_template, request
+from src import backend
+import pickle
 
-app = Flask(__name__)
-
-
-@app.route("/")
-def index():
-    return "Hello World!"
+app = Flask(__name__, template_folder="../templates", static_folder="../static")
 
 
-if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=8080, debug=True)
+# New User
+@app.route("/user/new", methods=["GET", "POST"])
+def new_user(title="New User"):
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        new_user = backend.User(username, password)
+        with open(f"./data/{username}.bin", "wb") as file:
+            pickle.dump(new_user, file)
+        print("user added")
+
+        return "user added", 200
+
+    return render_template("user-new.html")
+
+
+# Login
+
+# New Login
+
+# Search Login
+
+# See all logins
