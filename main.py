@@ -13,7 +13,7 @@ def main():
         choices = ["Start server", Separator(), "Exit"]
         choice = inq.select(message="Make a selection", choices=choices).execute()
         match choice:
-            case "Start server":
+            case "Start debug server":
                 frontend.app.run(host="127.0.0.1", port=8080, debug=True)
             case "Exit":
                 running = False
@@ -22,8 +22,8 @@ def main():
 if __name__ == "__main__":
     try:
         main()
-    # except Exception as e:
-    #     print("Error:", e)
+    except Exception as e:
+        print("Error:", e)
     except KeyboardInterrupt:
         print("Exiting")
         exit()
