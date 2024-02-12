@@ -1,7 +1,9 @@
 from src import password_generator
+import argon2
 
 # Initialize the password generator
 generator = password_generator.Generator()
+hasher = argon2.PasswordHasher()
 
 
 class Login:
@@ -33,10 +35,10 @@ class User:
         - master_password (str): The master password for the user.
         """
         self.username = username
-        self.__password = master_password
+        self.__password = hasher.hash(master_password)
         self.__logins = []  # List to store login information
 
-    def validate_password(self, password):
+    def verify_password(self, password):
         """
         Validate the user's password.
 
@@ -46,7 +48,11 @@ class User:
         Returns:
         - bool: True if the password is valid, False otherwise.
         """
-        return password == self.__password
+        try:
+            if hasher.verify(self.__password, password):
+                return True
+        except argon2.exceptions.VerifyMismatchError:
+            return False
 
     def add_login(
         self,
