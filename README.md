@@ -1,8 +1,14 @@
 # Password Manager Project
+
+![WakaTime](https://wakatime.com/badge/user/018d88ca-6686-4ddc-a648-a108b3febbc3/project/018d8f86-dd38-4eca-93ef-598d3d05e6aa.svg)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/garrywashere/password-manager)
+
 ## Overview
+
 This Python-based Password Manager is designed as part of the OCR Computer Science H446 programming project. The goal of this project is to create a secure and user-friendly password manager to help users manage their passwords effectively.
 
 ## Features
+
 - **User Authentication:** Allows users to create an account with a unique username and a secure password.
 - **Password Storage:** Safely stores and encrypts user passwords.
 - **Password Generation:** Provides a tool to generate strong, random passwords.
@@ -15,6 +21,7 @@ This Python-based Password Manager is designed as part of the OCR Computer Scien
 - Additional libraries -->
 
 ## Installation
+
 1. Clone the repository:
 
    ```bash
@@ -34,6 +41,7 @@ This Python-based Password Manager is designed as part of the OCR Computer Scien
    ```
 
 ## Usage
+
 1. Run the password manager:
 
    ```bash
