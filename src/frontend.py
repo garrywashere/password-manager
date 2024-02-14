@@ -93,6 +93,26 @@ def new_login():
 
 
 # Search Login
+@app.route("/logins/search", methods=["GET", "POST"])
+def search_login():
+    try:
+        session_user = session["username"]
+        logged_in = session["logged_in"]
+    except KeyError:
+        return redirect("/user/login")
+    if logged_in and session_user:
+        if request.method == "POST":
+            search = request.form["search"]
+
+            with open(f"./data/{session_user}.bin", "rb") as file:
+                user = pickle.load(file)
+
+            results = user.query_login(search)
+
+            return render_template("login-search.html", results=results)
+        return render_template("login-search.html")
+    else:
+        return redirect("/user/login")
 
 
 # See all logins

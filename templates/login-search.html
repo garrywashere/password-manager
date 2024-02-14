@@ -1,0 +1,23 @@
+{% extends 'template.html' %} {% block body %}
+<h2>Search</h2>
+
+<form method="POST" action="/logins/search">
+  <label for="search">Search:</label>
+  <input type="text" id="search" name="search" required />
+
+  <br />
+
+  <input type="submit" value="Search" />
+
+  <br />
+
+  {% if results %}
+  <ul>
+    {% for result in results %}
+    <li>{{ result.username }} - {{ result.password }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</form>
+
+{% endblock %}

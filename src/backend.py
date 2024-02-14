@@ -84,14 +84,15 @@ class User:
         Returns:
         - Login or None: The matching login or None if no match is found.
         """
+        logins = []
         for login in self.__logins:
             if (
                 query in login.username
                 or query in login.email
                 or query in login.website
             ):
-                return login
-        return None
+                logins.append(login)
+        return logins
 
     def list_logins(self):
         """
