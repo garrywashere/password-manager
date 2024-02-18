@@ -72,8 +72,3 @@ This Python-based Password Manager is designed as part of the OCR Computer Scien
 2. Select the desired option in the menu
 
 2. Navigate to `https://127.0.0.1:8080/`
-
-## Issues
-- Data folder not present when pulling, causes errors when writing new users
-- No way of knowing if a user is currently logged in
-- User not redirected after any actions
