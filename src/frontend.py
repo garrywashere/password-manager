@@ -9,7 +9,15 @@ app.secret_key = "4369307056126f5f09ced025"
 # Index
 @app.route("/")
 def index():
-    return render_template("index.html", title="Welcome")
+    username = ""
+    try:
+        username = session["username"]
+    except KeyError:
+        pass
+    if username:
+        return render_template("index.html", title="Welcome", username=username)
+    else:
+        return render_template("index.html", title="Welcome")
 
 
 # New User
@@ -25,7 +33,6 @@ def new_user():
             new_user = backend.User(username, password)
             with open(f"./data/{username}.bin", "wb") as file:
                 pickle.dump(new_user, file)
-            print("user added")
 
             return redirect("/")
 
@@ -46,13 +53,13 @@ def login_user():
                 user = pickle.load(file)
             if user.verify_password(password):
                 session["logged_in"], session["username"] = True, username
-                return "login succeeded", 200
+                return redirect("/")
             else:
                 return render_template("user-login.html", error="Password incorrect")
 
     return render_template("user-login.html", title="Login")
 
-
+# Logout
 @app.route("/user/logout")
 def logout_user():
     session.pop("logged_in", default=None)
@@ -84,7 +91,7 @@ def new_login():
             with open(f"./data/{session_user}.bin", "wb") as file:
                 pickle.dump(user, file)
 
-            return "login added", 200
+            return redirect("/")
 
         return render_template("login-new.html", title="New Login")
 

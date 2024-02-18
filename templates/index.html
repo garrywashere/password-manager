@@ -1,5 +1,8 @@
 {% extends 'template.html' %} {% block body %}
 <h1>Welcome</h1>
+{% if username %}
+<p>Logged in: {{ username }}</p>
+{% endif %}
 
 <ul>
     <li><button onclick="location.href='/user/login'">Login</button></li>
