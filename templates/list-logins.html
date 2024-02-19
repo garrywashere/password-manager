@@ -16,8 +16,8 @@
     {% for cred in creds %}
     <tr>
         <td>{{ cred.username }}</td>
-        <td>{{ cred.password }}</td>
-        <td>{{cred.email }}</td>
+        <td class="secret" id="secret">{{ cred.password }}</td>
+        <td>{{ cred.email }}</td>
         <td>{{ cred.website }}</td>
         <td>
             <button onclick="alert('Not yet implemented')">Edit</button>

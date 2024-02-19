@@ -4,13 +4,13 @@
     <h2>Create Account</h2>
     <form method="POST" action="/signup">
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required />
+        <input type="text" id="username" name="username" maxlength="16" required />
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required />
+        <input type="password" id="password" name="password" minlength="8" required />
 
         <label for="password">Confirm Password:</label>
-        <input type="password" id="password2" name="password2" required />
+        <input type="password" id="password2" name="password2" minlength="8" required />
 
         {% if error %}
         <p class="error">{{ error }}</p>

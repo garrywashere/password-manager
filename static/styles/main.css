@@ -136,3 +136,12 @@ button:hover {
     background-color: #4285f4;
     color: #fff;
 }
+
+.secret {
+    transition: 100ms;
+    filter: blur(5px);
+}
+.secret:hover {
+    transition: 100ms;
+    filter: blur(0px);
+}
