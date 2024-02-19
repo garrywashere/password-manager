@@ -32,6 +32,9 @@ class User:
         except argon2.exceptions.VerifyMismatchError:
             return False
 
+    def change_password(self, newPassword):
+        self.__password = hasher.hash(newPassword)
+
     def add_cred(
         self,
         username,

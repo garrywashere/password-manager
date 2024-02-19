@@ -74,10 +74,17 @@ def new_user():
     )
 
 
-@app.route("/logout")
-def logout_user():
-    session.pop("username", default=None)
-    return redirect("/")
+@app.route("/list-logins")
+def list_logins():
+    username = login_status()
+    if username:
+        user = recall(username)
+        creds = user.list_creds()
+        return render_template(
+            "list-logins.html", title="Logins", username=username, creds=creds
+        )
+    else:
+        return redirect("/login")
 
 
 @app.route("/new-login", methods=["GET", "POST"])
@@ -95,19 +102,6 @@ def new_login():
             save(user)
             return redirect("/list-logins")
         return render_template("new-login.html", title="New Login", username=username)
-    else:
-        return redirect("/login")
-
-
-@app.route("/list-logins")
-def list_logins():
-    username = login_status()
-    if username:
-        user = recall(username)
-        creds = user.list_creds()
-        return render_template(
-            "list-logins.html", title="Logins", username=username, creds=creds
-        )
     else:
         return redirect("/login")
 
@@ -201,3 +195,60 @@ def password_generator():
         )
     else:
         return redirect("/login")
+
+
+### SETTINGS
+@app.route("/settings")
+def settings():
+    username = login_status()
+    if username:
+        return render_template("settings.html", title="Settings", username=username)
+    else:
+        return redirect("/login")
+
+
+@app.route("/profile")
+def profile():
+    username = login_status()
+    if username:
+        return render_template("profile.html", title="Profile", username=username)
+    else:
+        return redirect("/login")
+
+
+@app.route("/profile/change-password", methods=["GET", "POST"])
+def change_password():
+    username = login_status()
+    if username:
+        error = False
+        if request.method == "POST":
+            current = request.form["password"]
+            new = request.form["password1"]
+            new1 = request.form["password2"]
+
+            user = recall(username)
+            if not user.verify_password(current):
+                error = "Password incorrect"
+            elif new != new1:
+                error = "Passwords must match"
+            else:
+                user.change_password(new)
+                save(user)
+                return redirect("/profile")
+        return render_template(
+            "change-password.html",
+            title="Change Password",
+            login_page=True,
+            error=error,
+        )
+    else:
+        return redirect("/login")
+
+
+### PROFILE/DELETE
+
+
+@app.route("/logout")
+def logout_user():
+    session.pop("username", default=None)
+    return redirect("/")

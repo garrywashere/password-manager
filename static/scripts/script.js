@@ -105,7 +105,6 @@ function copy(id) {
         // Clear the selection
         selection.removeAllRanges();
 
-        // Optionally, you can provide feedback to the user
         alert("Copied.");
     } else {
         // The element with id "username" was not found
