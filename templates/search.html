@@ -1,10 +1,17 @@
 {% extends "template.html" %} {% block main %}
 
-<h1>{{ username.capitalize() }}'s Saved Logins</h1>
-<button onclick="window.location.href='/new-login'">Create New</button>
-<button onclick="window.location.href='/search-logins'">Search</button>
+<h1>Search Logins</h1>
+
+<form class="box" method="GET" action="/search-logins">
+    <label for="search">Search:</label>
+    <input type="search" id="query" name="query" required />
+
+    <button type="submit">Search</button>
+</form>
 
 {% if creds %}
+<br />
+<a href="/search-logins">Clear results...</a>
 <table class="table">
     <tr>
         <th>Username</th>
@@ -34,6 +41,4 @@
     </tr>
     {% endfor %}
 </table>
-{% elif not creds %}
-<p>Hmm... it's a little empty here...</p>
 {% endif %} {% endblock %}

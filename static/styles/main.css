@@ -93,7 +93,7 @@ input {
 }
 input:focus {
     transition: 100ms;
-    transform: scale(1.05);
+    transform: scale(1.025);
 }
 
 textarea {
@@ -103,7 +103,7 @@ textarea {
 }
 textarea:focus {
     transition: 100ms;
-    transform: scale(1.05);
+    transform: scale(1.025);
 }
 
 button {

@@ -14,6 +14,17 @@ def login_status():
         return False
 
 
+def recall(username):
+    with open(f"./data/{username}.bin", "rb") as file:
+        user = pickle.load(file)
+    return user
+
+
+def save(user):
+    with open(f"./data/{user.username}.bin", "wb") as file:
+        pickle.dump(user, file)
+
+
 @app.route("/")
 def index():
     username = login_status()
@@ -30,20 +41,15 @@ def login():
         password = request.form["password"]
 
         if os.path.exists(f"./data/{username}.bin"):
-            print("exists")
-            with open(f"./data/{username}.bin", "rb") as file:
-                user = pickle.load(file)
+            user = recall(username)
 
             if user.verify_password(password):
-                print("password worked")
                 session["username"] = username
                 return redirect("/")
 
             else:
-                print("password didn't work")
                 login_error = True
         else:
-            print("file not found")
             login_error = True
     return render_template(
         "login.html", login_page=True, title="Login", error=login_error
@@ -65,8 +71,7 @@ def new_user():
             error = "Username taken"
         else:
             new_user = backend.User(username, password)
-            with open(f"./data/{username}.bin", "wb") as file:
-                pickle.dump(new_user, file)
+            save(new_user)
 
             session["username"] = username
             return redirect("/")
@@ -82,7 +87,6 @@ def logout_user():
     return redirect("/")
 
 
-# New Login
 @app.route("/new-login", methods=["GET", "POST"])
 def new_login():
     username = login_status()
@@ -94,13 +98,11 @@ def new_login():
             website = request.form["website"]
             notes = request.form["notes"]
 
-            with open(f"./data/{username}.bin", "rb") as file:
-                user = pickle.load(file)
+            user = recall(username)
 
             user.add_cred(_username, password, email, website, notes)
 
-            with open(f"./data/{username}.bin", "wb") as file:
-                pickle.dump(user, file)
+            save(user)
 
             return redirect("/list-logins")
 
@@ -114,8 +116,7 @@ def new_login():
 def list_logins():
     username = login_status()
     if username:
-        with open(f"./data/{username}.bin", "rb") as file:
-            user = pickle.load(file)
+        user = recall(username)
 
         creds = user.list_creds()
 
@@ -126,19 +127,17 @@ def list_logins():
         return redirect("/login")
 
 
-@app.route("/logins/delete")
+@app.route("/delete-login")
 def delete_login():
     username = login_status()
     if username:
         id = request.args.get("id")
 
-        with open(f"./data/{username}.bin", "rb") as file:
-            user = pickle.load(file)
+        user = recall(username)
 
         user.del_cred(id)
 
-        with open(f"./data/{username}.bin", "wb") as file:
-            pickle.dump(user, file)
+        save(user)
 
         return redirect("/list-logins")
 
@@ -146,24 +145,19 @@ def delete_login():
         redirect("/login")
 
 
-# Search Login
-@app.route("/logins/search", methods=["GET", "POST"])
+@app.route("/search-logins")
 def search_login():
-    try:
-        session_user = session["username"]
-        logged_in = session["logged_in"]
-    except KeyError:
-        return redirect("/user/login")
-    if logged_in and session_user:
-        if request.method == "POST":
-            search = request.form["search"]
+    username = login_status()
+    if username:
+        query = request.args.get("query")
 
-            with open(f"./data/{session_user}.bin", "rb") as file:
-                user = pickle.load(file)
+        results = []
+        if query:
+            user = recall(username)
+            results = user.query(query)
 
-            results = user.query_login(search)
-
-            return render_template("login-search.html", results=results)
-        return render_template("login-search.html")
+        return render_template(
+            "search.html", title="Search", username=username, creds=results
+        )
     else:
-        return redirect("/user/login")
+        redirect("/login")
