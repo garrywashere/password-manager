@@ -19,22 +19,11 @@ This Python-based Password Manager is designed as part of the OCR Computer Scien
 - **Local Storage:** Provides peace of mind when data is stored locally completely under the users control.
 
 ## Requirements
-- python==3.10.0
-- argon2-cffi==23.1.0
-- argon2-cffi-bindings==21.2.0
-- blinker==1.7.0
-- cffi==1.16.0
-- click==8.1.7
-- Flask==3.0.2
-- inquirerpy==0.3.4
-- itsdangerous==2.1.2
-- Jinja2==3.1.3
-- MarkupSafe==2.1.5
-- pfzy==0.3.4
-- prompt-toolkit==3.0.43
-- pycparser==2.21
-- wcwidth==0.2.13
-- Werkzeug==3.0.1
+- Python (3.10 or above)
+- requirements.txt (see Installation step 5)
+- Web Browser
+
+That's it
 
 
 ## Installation
@@ -51,10 +40,10 @@ This Python-based Password Manager is designed as part of the OCR Computer Scien
    cd password-manager
    ```
 
-3. Run the setup script, to install dependencies and initiate the virtual environment:
+3. Initiate the virtual environment:
 
    ```bash
-   python setup.py
+   python -m venv venv
    ```
 
 4. Enter the virtual envrionment
@@ -63,14 +52,24 @@ This Python-based Password Manager is designed as part of the OCR Computer Scien
    source venv/bin/activate
    ```
 
-## Usage
-
-1. Run the password manager:
+5. Install required libraries from requirements.txt
 
    ```bash
-   python main.py
+   python -m pip install -r requirements.txt
    ```
 
-2. Select the desired option in the menu
+## Usage
+
+1. Run the server
+
+```bash
+python main.py
+```
+
+NOTE: to change server settings modify the constants in the `main.py` script:
+```python
+HOST = "127.0.0.1"
+PORT = 8080
+```
 
 2. Navigate to `https://127.0.0.1:8080/`
