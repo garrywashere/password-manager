@@ -99,7 +99,6 @@ def new_login():
         return redirect("/login")
 
 
-# See all logins
 @app.route("/list-logins")
 def list_logins():
     username = login_status()
@@ -150,7 +149,34 @@ def view_login():
         redirect("/login")
 
 
-### EDIT LOGINS
+@app.route("/edit-login", methods=["GET", "POST"])
+def edit_login():
+    username = login_status()
+    if username:
+        id = request.args.get("id")
+        if id:
+            user = recall(username)
+            creds = user.list_creds()
+            result = None
+            for cred in creds:
+                if id == cred.id:
+                    result = cred
+                    break
+        if request.method == "POST" and id:
+            _username = request.form["username"]
+            password = request.form["password"]
+            email = request.form["email"]
+            website = request.form["website"]
+            notes = request.form["notes"]
+            user.add_cred(_username, password, email, website, notes)
+            user.del_cred(id)
+            save(user)
+            return redirect("/list-logins")
+        return render_template(
+            "edit-login.html", title="Edit Login", username=username, cred=result
+        )
+    else:
+        return redirect("/login")
 
 
 @app.route("/delete-login")

@@ -1,0 +1,47 @@
+{% extends "template.html" %} {% block main %}
+
+<h1>Edit Login</h1>
+<button onclick="window.location.href='/list-logins'">Cancel</button>
+<br /><br />
+
+<div class="box">
+    <h2>Please enter the details for the new credential</h2>
+    <form method="POST" action="/edit-login?id={{ cred.id }}">
+        <label for="username">Username:</label>
+        <input
+            type="text"
+            id="username"
+            name="username"
+            value="{{ cred.username }}"
+            required
+        />
+
+        <label for="password">Password:</label>
+        <input
+            type="password"
+            id="password"
+            name="password"
+            value="{{ cred.password }}"
+            required
+        />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{ cred.email }}" />
+
+        <label for="website">Website:</label>
+        <input
+            type="url"
+            id="website"
+            name="website"
+            value="{{ cred.website }}"
+        />
+
+        <label for="notes">Notes:</label>
+        <!-- <input type="text" id="notes" name="notes"  /> -->
+        <textarea rows="5" id="notes" name="notes">{{ cred.notes }}</textarea>
+
+        <button type="submit">Save</button>
+    </form>
+</div>
+
+{% endblock %}
