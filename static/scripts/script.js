@@ -45,12 +45,18 @@ function generatePassword() {
 
         // Generate a random password
         for (let i = 0; i < passwordLength; i++) {
-            password.push(allChars[Math.floor(Math.random() * allChars.length)]);
+            password.push(
+                allChars[Math.floor(Math.random() * allChars.length)]
+            );
         }
 
         // Count the occurrences of each character type
-        lowerCharCount = password.filter((char) => lowerCharBank.includes(char)).length;
-        upperCharCount = password.filter((char) => upperCharBank.includes(char)).length;
+        lowerCharCount = password.filter((char) =>
+            lowerCharBank.includes(char)
+        ).length;
+        upperCharCount = password.filter((char) =>
+            upperCharBank.includes(char)
+        ).length;
         digiCount = password.filter((char) => digiBank.includes(char)).length;
         specCount = password.filter((char) => specBank.includes(char)).length;
 

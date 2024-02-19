@@ -1,6 +1,9 @@
 {% extends "template.html" %} {% block main %}
 
 <h1>New Login</h1>
+<button onclick="window.location.href='/list-logins'">Cancel</button>
+<br /><br />
+
 <div class="box">
     <h2>Please enter the details for the new credential</h2>
     <form method="POST" action="/new-login">

@@ -4,10 +4,23 @@
     <h2>Login</h2>
     <form method="POST" action="/login">
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" maxlength="16" autofocus required />
+        <input
+            type="text"
+            id="username"
+            name="username"
+            maxlength="16"
+            autofocus
+            required
+        />
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" minlength="8" required />
+        <input
+            type="password"
+            id="password"
+            name="password"
+            minlength="8"
+            required
+        />
 
         {% if error %}
         <p class="error" onclick="login_error()">Login failed</p>
