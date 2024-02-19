@@ -7,6 +7,8 @@
 
 This Python-based Password Manager is designed as part of the OCR Computer Science H446 programming project. The goal of this project is to create a secure and user-friendly password manager to help users manage their passwords effectively.
 
+![Index](screenshots/index.png)
+
 ## Features
 
 - **User Authentication:** Allows users to create an account with a unique username and a secure password.
