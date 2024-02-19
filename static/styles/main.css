@@ -22,10 +22,6 @@ nav {
     align-items: center;
 }
 
-.logo {
-    font-size: 1.5rem;
-}
-
 .navbar {
     display: flex;
 }
@@ -69,4 +65,74 @@ main {
 .main-content {
     max-width: 800px;
     margin: 0 auto;
+}
+
+.box {
+    max-width: 800px;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input {
+    transition: 100ms;
+    padding: 8px;
+    margin-bottom: 15px;
+}
+input:focus {
+    transition: 100ms;
+    transform: scale(1.05);
+}
+
+textarea {
+    transition: 100ms;
+    padding: 8px;
+    margin-bottom: 15px;
+}
+textarea:focus {
+    transition: 100ms;
+    transform: scale(1.05);
+}
+
+button {
+    transition: 25ms;
+    padding: 10px;
+    background-color: #4285f4;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    transition: 25ms;
+    opacity: 0.75;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th,
+.table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #4285f4;
+    color: #fff;
 }

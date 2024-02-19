@@ -1,0 +1,29 @@
+{% extends "template.html" %} {% block main %}
+
+<h1>{{ username }}'s Saved Logins</h1>
+<button onclick="window.location.href='/new-login'">Create New</button>
+<button onclick="window.location.href='/search'">Search</button>
+
+<table class="table">
+    <tr>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Email</th>
+        <th>Website</th>
+        <th>Actions</th>
+    </tr>
+    {% for cred in creds %}
+    <tr>
+        <td>{{ cred.username }}</td>
+        <td>{{ cred.password }}</td>
+        <td>{{cred.email }}</td>
+        <td>{{ cred.website }}</td>
+        <td>
+            <button onclick="alert('Not yet implemented')">Edit</button>
+            <button onclick="alert('Not yet implemented')">Delete</button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

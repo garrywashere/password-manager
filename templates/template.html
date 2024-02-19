@@ -25,9 +25,9 @@
             <nav>
                 <div class="logo">Password Manager</div>
                 <div class="navbar">
-                    <a href="#">Home</a>
+                    <a href="/">Home</a>
                     {% if username %}
-                    <a href="/logins">Saved Logins</a>
+                    <a href="/list-logins">Saved Logins</a>
                     <a href="/generator">Password Generator</a>
                     <a href="/settings">Settings</a>
                     {% endif %}
@@ -35,10 +35,25 @@
                 <div class="user-status">
                     {% if username %}
                     <span id="user-display">Hi, {{ username }}</span>
-                    <button class="logout-btn" onclick="window.location.href='/profile'">Profile</button>
-                    <button class="logout-btn" onclick="window.location.href='/logout'">Logout</button>
+                    <button
+                        class="logout-btn"
+                        onclick="window.location.href='/profile'"
+                    >
+                        Profile
+                    </button>
+                    <button
+                        class="logout-btn"
+                        onclick="window.location.href='/logout'"
+                    >
+                        Logout
+                    </button>
                     {% elif not username %}
-                    <button class="logout-btn" onclick="window.location.href='/login'">Login</button>
+                    <button
+                        class="logout-btn"
+                        onclick="window.location.href='/login'"
+                    >
+                        Login
+                    </button>
                     {% endif %}
                 </div>
             </nav>
@@ -49,7 +64,13 @@
             <!-- Your main content goes here -->
             <div class="main-content">{% block main %} {% endblock %}</div>
             {% if not login_page %}
-            <img src="{{ url_for('static', filename='images/key.png') }}" width="256px" height="256px">
+            <br />
+            <br />
+            <img
+                src="{{ url_for('static', filename='images/key.png') }}"
+                width="256px"
+                height="256px"
+            />
             {% endif %}
         </main>
     </body>

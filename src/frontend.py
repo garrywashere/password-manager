@@ -54,7 +54,7 @@ def login():
 def new_user():
     error = False
     if request.method == "POST":
-        username = request.form["username"]
+        username = str(request.form["username"]).lower()
         password = request.form["password"]
         password2 = request.form["password2"]
 
@@ -83,35 +83,56 @@ def logout_user():
 
 
 # New Login
-@app.route("/login/new", methods=["GET", "POST"])
+@app.route("/new-login", methods=["GET", "POST"])
 def new_login():
-    try:
-        session_user = session["username"]
-        logged_in = session["logged_in"]
-    except KeyError:
-        return redirect("/user/login")
-    if logged_in and session_user:
+    username = login_status()
+    if username:
         if request.method == "POST":
-            username = request.form["username"]
+            _username = request.form["username"]
             password = request.form["password"]
             email = request.form["email"]
             website = request.form["website"]
             notes = request.form["notes"]
 
-            with open(f"./data/{session_user}.bin", "rb") as file:
+            with open(f"./data/{username}.bin", "rb") as file:
                 user = pickle.load(file)
 
-            user.add_login(username, password, email, website, notes)
+            user.add_cred(_username, password, email, website, notes)
 
-            with open(f"./data/{session_user}.bin", "wb") as file:
+            with open(f"./data/{username}.bin", "wb") as file:
                 pickle.dump(user, file)
 
             return redirect("/")
 
-        return render_template("login-new.html", title="New Login")
-
+        return render_template("new-login.html", title="New Login", username=username)
     else:
-        return redirect("/user/login")
+        return redirect("/login")
+
+
+# See all logins
+@app.route("/list-logins")
+def list_logins():
+    username = login_status()
+    if username:
+        with open(f"./data/{username}.bin", "rb") as file:
+            user = pickle.load(file)
+
+        creds = user.list_creds()
+
+        return render_template("list-logins.html", title="Logins", username=username, creds=creds)
+    else:
+        return redirect("/login")
+
+    # try:
+    #     logged_in = session["logged_in"]
+    #     username = session["username"]
+    # except KeyError:
+    #     return redirect("/user/login")
+    # if logged_in and username:
+    #     with open(f"./data/{username}.bin", "rb") as file:
+    #         user = pickle.load(file)
+    #     logins = user.list_logins()
+    #     return render_template("login-list.html", logins=logins)
 
 
 # Search Login
@@ -135,18 +156,3 @@ def search_login():
         return render_template("login-search.html")
     else:
         return redirect("/user/login")
-
-
-# See all logins
-@app.route("/logins/list")
-def list_logins():
-    try:
-        logged_in = session["logged_in"]
-        username = session["username"]
-    except KeyError:
-        return redirect("/user/login")
-    if logged_in and username:
-        with open(f"./data/{username}.bin", "rb") as file:
-            user = pickle.load(file)
-        logins = user.list_logins()
-        return render_template("login-list.html", logins=logins)
