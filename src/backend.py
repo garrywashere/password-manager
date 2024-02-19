@@ -54,7 +54,7 @@ class User:
         except argon2.exceptions.VerifyMismatchError:
             return False
 
-    def add_login(
+    def add_cred(
         self,
         username,
         password=generator.generate(8, 1),
@@ -74,7 +74,7 @@ class User:
         """
         self.__logins.append(Login(username, password, email, website, notes))
 
-    def query_login(self, query):
+    def query(self, query):
         """
         Query the user's logins based on a search query.
 

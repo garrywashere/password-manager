@@ -6,63 +6,78 @@ app = Flask(__name__, template_folder="../templates", static_folder="../static")
 app.secret_key = "4369307056126f5f09ced025"
 
 
-# Index
-@app.route("/")
-def index():
-    username = ""
+def login_status():
     try:
         username = session["username"]
+        return username
     except KeyError:
-        pass
+        return False
+
+
+@app.route("/")
+def index():
+    username = login_status()
     if username:
-        return render_template("index.html", title="Welcome", username=username)
-    else:
-        return render_template("index.html", title="Welcome")
+        return render_template("index.html", username=username)
+    return render_template("index.html")
 
 
-# New User
-@app.route("/user/new", methods=["GET", "POST"])
-def new_user():
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    login_error = False
     if request.method == "POST":
-        username = request.form["username"]
+        username = str(request.form["username"]).lower()
         password = request.form["password"]
 
         if os.path.exists(f"./data/{username}.bin"):
-            return render_template("user-new.html", error="Username Taken")
+            print("exists")
+            with open(f"./data/{username}.bin", "rb") as file:
+                user = pickle.load(file)
+
+            if user.verify_password(password):
+                print("password worked")
+                session["username"] = username
+                return redirect("/")
+
+            else:
+                print("password didn't work")
+                login_error = True
+        else:
+            print("file not found")
+            login_error = True
+    return render_template(
+        "login.html", login_page=True, title="Login", error=login_error
+    )
+
+
+@app.route("/signup", methods=["GET", "POST"])
+def new_user():
+    error = False
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        password2 = request.form["password2"]
+
+        if password != password2:
+            error = "Passwords don't match"
+
+        elif os.path.exists(f"./data/{username}.bin"):
+            error = "Username taken"
         else:
             new_user = backend.User(username, password)
             with open(f"./data/{username}.bin", "wb") as file:
                 pickle.dump(new_user, file)
 
+            session["username"] = username
             return redirect("/")
 
-    return render_template("user-new.html", title="New User")
+    return render_template(
+        "signup.html", login_page=True, title="Create Account", error=error
+    )
 
 
-# Login
-@app.route("/user/login", methods=["GET", "POST"])
-def login_user():
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-
-        if not os.path.exists(f"./data/{username}.bin"):
-            return render_template("user-login.html", error="Username not recognised")
-        else:
-            with open(f"./data/{username}.bin", "rb") as file:
-                user = pickle.load(file)
-            if user.verify_password(password):
-                session["logged_in"], session["username"] = True, username
-                return redirect("/")
-            else:
-                return render_template("user-login.html", error="Password incorrect")
-
-    return render_template("user-login.html", title="Login")
-
-# Logout
-@app.route("/user/logout")
+@app.route("/logout")
 def logout_user():
-    session.pop("logged_in", default=None)
     session.pop("username", default=None)
     return redirect("/")
 
