@@ -83,3 +83,32 @@ function generatePassword() {
     const passOutput = document.getElementById("pass");
     passOutput.textContent = password.join("");
 }
+
+function copy(id) {
+    // Find the <p> tag with id "username"
+    var usernameElement = document.getElementById(id);
+
+    // Check if the element exists
+    if (usernameElement) {
+        // Create a range and select the text content
+        var range = document.createRange();
+        range.selectNode(usernameElement);
+
+        // Create a selection and add the range
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        // Copy the selected text to the clipboard
+        document.execCommand("copy");
+
+        // Clear the selection
+        selection.removeAllRanges();
+
+        // Optionally, you can provide feedback to the user
+        alert("Copied.");
+    } else {
+        // The element with id "username" was not found
+        console.error("Element not found.");
+    }
+}

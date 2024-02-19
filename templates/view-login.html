@@ -5,11 +5,13 @@
 <table class="table">
     <tr>
         <th>Username</th>
-        <td>{{ cred.username }}</td>
+        <td id="username">{{ cred.username }}</td>
+        <td><button title="Copy to Clipboard" onclick="copy('username')">⎘</button></td>
     </tr>
     <tr>
         <th>Password</th>
-        <td class="secret">{{ cred.password }}</td>
+        <td id="password" class="secret">{{ cred.password }} </td>
+        <td><button title="Copy to Clipboard" onclick="copy('password')">⎘</button></td>
     </tr>
     {% if cred.email %}
     <tr>
