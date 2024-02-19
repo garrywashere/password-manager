@@ -1,0 +1,48 @@
+{% extends "template.html" %} {% block main %}
+
+<h1>Viewing Login</h1>
+
+<table class="table">
+    <tr>
+        <th>Username</th>
+        <td>{{ cred.username }}</td>
+    </tr>
+    <tr>
+        <th>Password</th>
+        <td class="secret">{{ cred.password }}</td>
+    </tr>
+    {% if cred.email %}
+    <tr>
+        <th>Email</th>
+        <td>{{ cred.email }}</td>
+    </tr>
+    {% endif %} {% if cred.website %}
+    <tr>
+        <th>Website</th>
+        <td>{{ cred.website }}</td>
+    </tr>
+    {% endif %} {% if cred.notes %}
+    <tr>
+        <th>Notes</th>
+        <td>{{ cred.notes }}</td>
+    </tr>
+    {% endif %}
+</table>
+
+<!-- <p>Username: {{ cred.username }}</p>
+
+<p>Password: <p class="secret">{{ cred.password }}</p></p>
+
+{% if cred.email %}
+<p>Email: {{ cred.email }}</p>
+{% endif %}
+
+{% if cred.website %}
+<p>Email: {{ cred.website }}</p>
+{% endif %}
+
+{% if cred.notes %}
+<p>Email: {{ cred.notes }}</p>
+{% endif %} -->
+
+{% endblock %}

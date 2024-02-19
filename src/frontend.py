@@ -39,14 +39,11 @@ def login():
     if request.method == "POST":
         username = str(request.form["username"]).lower()
         password = request.form["password"]
-
         if os.path.exists(f"./data/{username}.bin"):
             user = recall(username)
-
             if user.verify_password(password):
                 session["username"] = username
                 return redirect("/")
-
             else:
                 login_error = True
         else:
@@ -63,19 +60,15 @@ def new_user():
         username = str(request.form["username"]).lower()
         password = request.form["password"]
         password2 = request.form["password2"]
-
         if password != password2:
             error = "Passwords don't match"
-
         elif os.path.exists(f"./data/{username}.bin"):
             error = "Username taken"
         else:
             new_user = backend.User(username, password)
             save(new_user)
-
             session["username"] = username
             return redirect("/")
-
     return render_template(
         "signup.html", login_page=True, title="Create Account", error=error
     )
@@ -97,15 +90,10 @@ def new_login():
             email = request.form["email"]
             website = request.form["website"]
             notes = request.form["notes"]
-
             user = recall(username)
-
             user.add_cred(_username, password, email, website, notes)
-
             save(user)
-
             return redirect("/list-logins")
-
         return render_template("new-login.html", title="New Login", username=username)
     else:
         return redirect("/login")
@@ -117,9 +105,7 @@ def list_logins():
     username = login_status()
     if username:
         user = recall(username)
-
         creds = user.list_creds()
-
         return render_template(
             "list-logins.html", title="Logins", username=username, creds=creds
         )
@@ -127,38 +113,55 @@ def list_logins():
         return redirect("/login")
 
 
-@app.route("/delete-login")
-def delete_login():
-    username = login_status()
-    if username:
-        id = request.args.get("id")
-
-        user = recall(username)
-
-        user.del_cred(id)
-
-        save(user)
-
-        return redirect("/list-logins")
-
-    else:
-        redirect("/login")
-
-
 @app.route("/search-logins")
 def search_login():
     username = login_status()
     if username:
         query = request.args.get("query")
-
         results = []
         if query:
             user = recall(username)
             results = user.query(query)
-
         return render_template(
             "search.html", title="Search", username=username, creds=results
         )
+    else:
+        redirect("/login")
+
+
+@app.route("/view-login")
+def view_login():
+    username = login_status()
+    if username:
+        id = request.args.get("id")
+        if id:
+            user = recall(username)
+            creds = user.list_creds()
+            result = None
+            for cred in creds:
+                if id == cred.id:
+                    result = cred
+                    break
+
+        return render_template(
+            "view-login.html", title="View", username=username, cred=result
+        )
+    else:
+        redirect("/login")
+
+
+### EDIT LOGINS
+
+
+@app.route("/delete-login")
+def delete_login():
+    username = login_status()
+    if username:
+        id = request.args.get("id")
+        user = recall(username)
+        user.del_cred(id)
+        save(user)
+        return redirect("/list-logins")
     else:
         redirect("/login")
 

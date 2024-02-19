@@ -4,7 +4,7 @@
     <h2>Create Account</h2>
     <form method="POST" action="/signup">
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" maxlength="16" required />
+        <input type="text" id="username" name="username" minlength="3" maxlength="16" autofocus required />
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" minlength="8" required />

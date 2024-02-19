@@ -34,7 +34,9 @@
                 </div>
                 <div class="user-status">
                     {% if username %}
-                    <span id="user-display">Hi, {{ username.capitalize() }}</span>
+                    <span id="user-display"
+                        >Hi, {{ username.capitalize() }}</span
+                    >
                     <button
                         class="logout-btn"
                         onclick="window.location.href='/profile'"

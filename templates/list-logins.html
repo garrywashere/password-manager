@@ -21,6 +21,11 @@
         <td>{{ cred.website }}</td>
         <td>
             <button
+                onclick="window.location.href='/view-login?id={{ cred.id }}'"
+            >
+                View
+            </button>
+            <button
                 onclick="window.location.href='/edit-login?id={{ cred.id }}'"
             >
                 Edit

@@ -4,7 +4,7 @@
 
 <form class="box" method="GET" action="/search-logins">
     <label for="search">Search:</label>
-    <input type="search" id="query" name="query" required />
+    <input type="search" id="query" name="query" autofocus required />
 
     <button type="submit">Search</button>
 </form>
@@ -27,6 +27,11 @@
         <td>{{ cred.email }}</td>
         <td>{{ cred.website }}</td>
         <td>
+            <button
+                onclick="window.location.href='/view-login?id={{ cred.id }}'"
+            >
+                View
+            </button>
             <button
                 onclick="window.location.href='/edit-login?id={{ cred.id }}'"
             >
