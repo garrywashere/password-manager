@@ -161,3 +161,14 @@ def search_login():
         )
     else:
         redirect("/login")
+
+
+@app.route("/password-generator")
+def password_generator():
+    username = login_status()
+    if username:
+        return render_template(
+            "password-generator.html", title="Password Generator", username=username
+        )
+    else:
+        return redirect("/login")
