@@ -4,6 +4,7 @@
 <button onclick="window.location.href='/new-login'">Create New</button>
 <button onclick="window.location.href='/search'">Search</button>
 
+{% if creds %}
 <table class="table">
     <tr>
         <th>Username</th>
@@ -20,10 +21,13 @@
         <td>{{ cred.website }}</td>
         <td>
             <button onclick="alert('Not yet implemented')">Edit</button>
-            <button onclick="alert('Not yet implemented')">Delete</button>
+            <button onclick="window.location.href='/logins/delete?id={{ cred.id }}'">Delete</button>
         </td>
     </tr>
     {% endfor %}
 </table>
+{% elif not creds %}
+<p>Hmm... it's a little empty here...</p>
+{% endif %}
 
 {% endblock %}

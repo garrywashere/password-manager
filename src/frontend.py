@@ -102,7 +102,7 @@ def new_login():
             with open(f"./data/{username}.bin", "wb") as file:
                 pickle.dump(user, file)
 
-            return redirect("/")
+            return redirect("/list-logins")
 
         return render_template("new-login.html", title="New Login", username=username)
     else:
@@ -119,20 +119,31 @@ def list_logins():
 
         creds = user.list_creds()
 
-        return render_template("list-logins.html", title="Logins", username=username, creds=creds)
+        return render_template(
+            "list-logins.html", title="Logins", username=username, creds=creds
+        )
     else:
         return redirect("/login")
 
-    # try:
-    #     logged_in = session["logged_in"]
-    #     username = session["username"]
-    # except KeyError:
-    #     return redirect("/user/login")
-    # if logged_in and username:
-    #     with open(f"./data/{username}.bin", "rb") as file:
-    #         user = pickle.load(file)
-    #     logins = user.list_logins()
-    #     return render_template("login-list.html", logins=logins)
+
+@app.route("/logins/delete")
+def delete_login():
+    username = login_status()
+    if username:
+        id = request.args.get("id")
+
+        with open(f"./data/{username}.bin", "rb") as file:
+            user = pickle.load(file)
+
+        user.del_cred(id)
+
+        with open(f"./data/{username}.bin", "wb") as file:
+            pickle.dump(user, file)
+
+        return redirect("/list-logins")
+
+    else:
+        redirect("/login")
 
 
 # Search Login

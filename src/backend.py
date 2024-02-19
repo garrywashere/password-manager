@@ -1,7 +1,7 @@
 from src import password_generator
-import argon2
+import argon2, hashlib
 
-# Initialize the password generator
+# Initialise the password generator
 generator = password_generator.Generator()
 hasher = argon2.PasswordHasher()
 
@@ -13,6 +13,10 @@ class Credential:
         self.email = email
         self.website = website
         self.notes = notes
+
+        hash = hashlib.md5()
+        hash.update(username.encode() + password.encode())
+        self.id = hash.hexdigest()
 
 
 class User:
@@ -41,13 +45,14 @@ class User:
     def list_creds(self):
         return [cred for cred in self.__creds]
 
+    def del_cred(self, id):
+        for cred in self.__creds:
+            if cred.id == id:
+                self.__creds.remove(cred)
+
     def query(self, query):
-        logins = []
-        for login in self.__logins:
-            if (
-                query in login.username
-                or query in login.email
-                or query in login.website
-            ):
-                logins.append(login)
-        return logins
+        creds = []
+        for cred in self.__creds:
+            if query in cred.username or query in cred.email or query in cred.website:
+                creds.append(cred)
+        return creds
