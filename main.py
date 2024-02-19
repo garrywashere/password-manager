@@ -14,4 +14,4 @@ if __name__ == "__main__":
     if not os.path.exists("./data"):
         os.mkdir("./data")
 
-    frontend.app.run(host=HOSTNAME, port=PORT, debug=True)
+    frontend.app.run(host=HOST, port=PORT, debug=True)
