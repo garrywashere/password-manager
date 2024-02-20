@@ -74,6 +74,19 @@
                 width="128px"
                 height="128px"
             />
+            <p id="version"></p>
+
+            <script>
+                fetch("/version")
+                    .then((response) => response.json())
+                    .then((data) => {
+                        document.getElementById("version").innerText =
+                            `Ver. ${data.version}`;
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching version.");
+                    });
+            </script>
             {% endif %}
         </main>
     </body>

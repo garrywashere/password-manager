@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, flash
+from flask import Flask, render_template, request, session, redirect, flash, jsonify
 from src import backend
 import pickle, os
 
@@ -25,12 +25,26 @@ def save(user):
         pickle.dump(user, file)
 
 
+def get_version():
+    try:
+        count = os.popen("git rev-list --count master").read().strip()
+    except:
+        count = 0
+    version = [char for char in str(count)]
+    return ".".join(version)
+
+
 @app.route("/")
 def index():
     username = login_status()
     if username:
         return render_template("index.html", username=username)
     return render_template("index.html")
+
+
+@app.route("/version")
+def version():
+    return jsonify({"version": get_version()})
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -202,7 +216,9 @@ def password_generator():
 def settings():
     username = login_status()
     if username:
-        return render_template("settings.html", title="Settings", username=username)
+        return render_template(
+            "settings.html", title="Settings", username=username, verion=version
+        )
     else:
         return redirect("/login")
 
