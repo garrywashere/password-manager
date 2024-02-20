@@ -4,7 +4,7 @@
 {% if not username %}
 
 <h2>Need help logging in?</h2>
-<p>Press the 'Login' button in the top right to proceed to the login page.</p>
+<p>Press the <a href="/login">'Login'</a> button in the top right to proceed to the login page.</p>
 <p>
     If you have any issues logging in please follow the password recovery
     procedure, as shown <a href="/password-reset">here</a>.
@@ -13,6 +13,41 @@
 {% elif username %}
 
 <h2>Welcome back, {{ username.capitalize() }}</h2>
-<p>Please use the navigation bar at the top for your desired operations.</p>
+<p>Please make use of the navigation bar for your desired operations.</p>
+<h3>Recent Accounts</h3>
+<div class="box">
+    {% if creds %}
+    <table class="table">
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Website</th>
+            <th>Actions</th>
+        </tr>
+        {% for cred in creds %}
+        <tr>
+            <td id="username" onclick="copy('username')">
+                {{ cred.username }}
+            </td>
+            <td>{{ cred.email }}</td>
+            <td>{{ cred.website }}</td>
+            <td>
+                <button
+                    onclick="window.location.href='/view-login?id={{ cred.id }}'"
+                >
+                    View
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% elif not creds %}
+    <p>Hmm... Looks like you don't have any accounts saved...</p>
+    <p>
+        Head to the <a href="/list-logins">"Saved Accounts"</a> tab, and click
+        <a href="/new-login">"New Account"</a>.
+    </p>
+    {% endif %}
+</div>
 
 {% endif %} {% endblock %}

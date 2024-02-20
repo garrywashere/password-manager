@@ -1,11 +1,11 @@
 {% extends "template.html" %} {% block main %}
 
-<h1>Edit Login</h1>
+<h1>Editing Account</h1>
 <button onclick="window.location.href='/list-logins'">Cancel</button>
 <br /><br />
 
 <div class="box">
-    <h2>Please enter the details for the new credential</h2>
+    <h2>Please enter the updated details for the account</h2>
     <form method="POST" action="/edit-login?id={{ cred.id }}">
         <label for="username">Username:</label>
         <input

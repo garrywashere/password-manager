@@ -1,17 +1,25 @@
 {% extends "template.html" %} {% block main %}
 
-<h1>Viewing Login</h1>
+<h1>Viewing Account</h1>
 
 <table class="table">
     <tr>
         <th>Username</th>
         <td id="username">{{ cred.username }}</td>
-        <td><button title="Copy to Clipboard" onclick="copy('username')">📋</button></td>
+        <td>
+            <button title="Copy to Clipboard" onclick="copy('username')">
+                📋
+            </button>
+        </td>
     </tr>
     <tr>
         <th>Password</th>
-        <td id="password" class="secret">{{ cred.password }} </td>
-        <td><button title="Copy to Clipboard" onclick="copy('password')">📋</button></td>
+        <td id="password" class="secret">{{ cred.password }}</td>
+        <td>
+            <button title="Copy to Clipboard" onclick="copy('password')">
+                📋
+            </button>
+        </td>
     </tr>
     {% if cred.email %}
     <tr>
@@ -32,21 +40,16 @@
 </table>
 
 <br />
+
+<button onclick="window.location.href='/edit-login?id={{ cred.id }}'">
+    Edit
+</button>
+<button onclick="window.location.href='/delete-login?id={{ cred.id }}'">
+    Delete
+</button>
+
+<br /><br />
+
 <button onclick="window.location.href='/list-logins'">Done</button>
-<!-- <p>Username: {{ cred.username }}</p>
-
-<p>Password: <p class="secret">{{ cred.password }}</p></p>
-
-{% if cred.email %}
-<p>Email: {{ cred.email }}</p>
-{% endif %}
-
-{% if cred.website %}
-<p>Email: {{ cred.website }}</p>
-{% endif %}
-
-{% if cred.notes %}
-<p>Email: {{ cred.notes }}</p>
-{% endif %} -->
 
 {% endblock %}

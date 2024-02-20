@@ -1,7 +1,7 @@
 {% extends "template.html" %} {% block main %}
 
-<h1>{{ username.capitalize() }}'s Saved Logins</h1>
-<button onclick="window.location.href='/new-login'">Create New</button>
+<h1>{{ username.capitalize() }}'s Saved Accounts</h1>
+<button onclick="window.location.href='/new-login'">New Account</button>
 <button onclick="window.location.href='/search-logins'">Search</button>
 
 {% if creds %}

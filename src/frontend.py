@@ -42,7 +42,9 @@ def get_version():
 def index():
     username = login_status()
     if username:
-        return render_template("index.html", username=username)
+        user = recall(username)
+        creds = sort_results(user.list_creds())[:10]
+        return render_template("index.html", username=username, creds=creds)
     return render_template("index.html")
 
 
@@ -99,7 +101,7 @@ def list_logins():
         user = recall(username)
         creds = sort_results(user.list_creds())
         return render_template(
-            "list-logins.html", title="Logins", username=username, creds=creds
+            "list-logins.html", title="Saved Accounts", username=username, creds=creds
         )
     else:
         return redirect("/login")
@@ -119,7 +121,7 @@ def new_login():
             user.add_cred(_username, password, email, website, notes)
             save(user)
             return redirect("/list-logins")
-        return render_template("new-login.html", title="New Login", username=username)
+        return render_template("new-login.html", title="Creating...", username=username)
     else:
         return redirect("/login")
 
@@ -167,7 +169,7 @@ def view_login():
                     break
 
         return render_template(
-            "view-login.html", title="View", username=username, cred=result
+            "view-login.html", title="Viewing...", username=username, cred=result
         )
     else:
         redirect("/login")
@@ -197,7 +199,7 @@ def edit_login():
             save(user)
             return redirect("/list-logins")
         return render_template(
-            "edit-login.html", title="Edit Login", username=username, cred=result
+            "edit-login.html", title="Editing...", username=username, cred=result
         )
     else:
         return redirect("/login")
@@ -243,7 +245,7 @@ def settings():
 def profile():
     username = login_status()
     if username:
-        return render_template("profile.html", title="Profile", username=username)
+        return render_template("profile.html", title=f"{username.capitalize()}'s Profile", username=username)
     else:
         return redirect("/login")
 
