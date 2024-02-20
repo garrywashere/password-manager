@@ -120,10 +120,15 @@ button {
     color: #fff;
     border: none;
     cursor: pointer;
+    border-radius: 3px;
 }
 button:hover {
-    transition: 25ms;
+    transition: 75ms;
     opacity: 0.75;
+}
+button:active {
+    color: #010001;
+    background-color: #f4bb30;
 }
 
 .table {

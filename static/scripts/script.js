@@ -80,7 +80,7 @@ function generatePassword() {
     }
 
     // Output the password to the <p> tag with the id "pass"
-    const passOutput = document.getElementById("pass");
+    const passOutput = document.getElementById("password");
     passOutput.textContent = password.join("");
 }
 
@@ -105,7 +105,8 @@ function copy(id) {
         // Clear the selection
         selection.removeAllRanges();
 
-        alert("Copied.");
+        alert("Copied " + id)
+
     } else {
         // The element with id "username" was not found
         console.error("Element not found.");

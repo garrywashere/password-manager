@@ -15,8 +15,8 @@
     </tr>
     {% for cred in creds %}
     <tr>
-        <td>{{ cred.username }}</td>
-        <td class="secret" id="secret">{{ cred.password }}</td>
+        <td id="username" onclick="copy('username')">{{ cred.username }}</td>
+        <td class="secret" id="password" onclick="copy('password')">{{ cred.password }}</td>
         <td>{{ cred.email }}</td>
         <td>{{ cred.website }}</td>
         <td>
