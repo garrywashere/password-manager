@@ -23,6 +23,7 @@ This Python-based Password Manager is designed as part of the OCR Computer Scien
 - Python (3.10 or above)
 - argon2-cffi==23.1.0
 - Flask==3.0.2
+- gunicorn==21.2.0
 - Web Browser
 
 That's it
