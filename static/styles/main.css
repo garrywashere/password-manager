@@ -31,10 +31,17 @@ nav {
     text-decoration: none;
     margin: 0 15px;
 }
+.navbar a:visited {
+    color: #fff;
+}
 
 a {
+    color: #4285f4;
     text-decoration: none;
     margin-top: 5px;
+}
+a:visited {
+    color: #4285f4;
 }
 
 .user-status {

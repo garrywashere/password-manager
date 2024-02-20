@@ -66,22 +66,23 @@
             <!-- Your main content goes here -->
             <div class="main-content">{% block main %} {% endblock %}</div>
             {% if not login_page %}
-            <br />
-            <br />
+            <br /><br />
             <img
                 src="{{ url_for('static', filename='images/key.png') }}"
                 onclick="alert('2024 &copy; garrynet - All Rights Reserved.')"
                 width="128px"
                 height="128px"
             />
-            <p id="version"></p>
+            <br /><br />
+            <em><a id="version" href="https://github.com/garrywashere/password-manager"></a></em>
 
             <script>
                 fetch("/version")
                     .then((response) => response.json())
                     .then((data) => {
-                        document.getElementById("version").innerText =
-                            `Ver. ${data.version}`;
+                        document.getElementById(
+                            "version"
+                        ).innerText = `Ver. ${data.version}`;
                     })
                     .catch((error) => {
                         console.error("Error fetching version.");

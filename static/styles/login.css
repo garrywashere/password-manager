@@ -36,6 +36,9 @@ a {
     text-decoration: none;
     margin-top: 5px;
 }
+a:visited {
+    color: #4285f4;
+}
 
 form {
     display: flex;
