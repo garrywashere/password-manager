@@ -19,12 +19,13 @@ This Python-based Password Manager is designed as part of the OCR Computer Scien
 - **Local Storage:** Provides peace of mind when data is stored locally completely under the users control.
 
 ## Requirements
+
 - Python (3.10 or above)
-- requirements.txt (see Installation step 5)
+- argon2-cffi==23.1.0
+- Flask==3.0.2
 - Web Browser
 
 That's it
-
 
 ## Installation
 
@@ -67,6 +68,7 @@ python main.py
 ```
 
 NOTE: to change server settings modify the constants in the `main.py` script:
+
 ```python
 HOST = "127.0.0.1"
 PORT = 8080
