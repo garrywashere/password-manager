@@ -25,6 +25,10 @@ def save(user):
         pickle.dump(user, file)
 
 
+def sort_results(results, sort_by=None, descending=False):
+    return sorted(results, key=lambda x: (x.views, x.username), reverse=(True, False))
+
+
 def get_version():
     try:
         count = os.popen("git rev-list --count master").read().strip()
@@ -93,7 +97,7 @@ def list_logins():
     username = login_status()
     if username:
         user = recall(username)
-        creds = user.list_creds()
+        creds = sort_results(user.list_creds())
         return render_template(
             "list-logins.html", title="Logins", username=username, creds=creds
         )
@@ -148,6 +152,18 @@ def view_login():
             for cred in creds:
                 if id == cred.id:
                     result = cred
+                    print(result.views)
+                    result.views += 1
+                    user.del_cred(id)
+                    user.add_cred(
+                        result.username,
+                        result.password,
+                        result.email,
+                        result.website,
+                        result.notes,
+                        result.views,
+                    )
+                    save(user)
                     break
 
         return render_template(
@@ -176,8 +192,8 @@ def edit_login():
             email = request.form["email"]
             website = request.form["website"]
             notes = request.form["notes"]
-            user.add_cred(_username, password, email, website, notes)
             user.del_cred(id)
+            user.add_cred(_username, password, email, website, notes, result.views)
             save(user)
             return redirect("/list-logins")
         return render_template(

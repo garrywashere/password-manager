@@ -7,12 +7,16 @@ hasher = argon2.PasswordHasher()
 
 
 class Credential:
-    def __init__(self, username, password, email=None, website=None, notes=None):
+    def __init__(
+        self, username, password, email=None, website=None, notes=None, views=0
+    ):
         self.username = username
         self.password = password
         self.email = email
         self.website = website
         self.notes = notes
+
+        self.views = views
 
         hash = hashlib.md5()
         hash.update(username.encode() + password.encode())
@@ -42,8 +46,11 @@ class User:
         email=None,
         website=None,
         notes=None,
+        views=0,
     ):
-        self.__creds.append(Credential(username, password, email, website, notes))
+        self.__creds.append(
+            Credential(username, password, email, website, notes, views)
+        )
 
     def list_creds(self):
         return [cred for cred in self.__creds]
