@@ -3,7 +3,7 @@
 -   Automatically fill in the password form when creating new account 🤖
     -   Add button to clear (or clear when a user types something?) 🔄
     -   Add button to regenerate password 🔑
--   Remove 'Home' tab when no User is logged in 🏡❌
+-   ~~Remove 'Home' tab when no User is logged in 🏡❌~~
 -   Randomly generated app token for security 🔒
 -   Confirmation before deleting accounts ⚠️🚫
 -   Account deletion page 🗑️
