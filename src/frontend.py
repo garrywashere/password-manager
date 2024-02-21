@@ -3,7 +3,7 @@ from src import backend
 import pickle, os
 
 app = Flask(__name__, template_folder="../templates", static_folder="../static")
-app.secret_key = "4369307056126f5f09ced025"
+app.secret_key = os.urandom(16).hex()
 
 
 def login_status():
@@ -93,9 +93,11 @@ def new_user():
         "signup.html", login_page=True, title="Create Account", error=error
     )
 
+
 @app.route("/password-reset")
 def password_reset():
     return jsonify("Coming soon.")
+
 
 @app.route("/list-logins")
 def list_logins():
@@ -157,7 +159,6 @@ def view_login():
             for cred in creds:
                 if id == cred.id:
                     result = cred
-                    print(result.views)
                     result.views += 1
                     user.del_cred(id)
                     user.add_cred(
@@ -248,7 +249,11 @@ def settings():
 def profile():
     username = login_status()
     if username:
-        return render_template("profile.html", title=f"{username.capitalize()}'s Profile", username=username)
+        return render_template(
+            "profile.html",
+            title=f"{username.capitalize()}'s Profile",
+            username=username,
+        )
     else:
         return redirect("/login")
 
