@@ -56,6 +56,12 @@
                     >
                         Login
                     </button>
+                    <button
+                        class="logout-btn"
+                        onclick="window.location.href='/signup'"
+                    >
+                        Signup
+                    </button>
                     {% endif %}
                 </div>
             </nav>
@@ -74,7 +80,12 @@
                 height="128px"
             />
             <br /><br />
-            <em><a id="version" href="https://github.com/garrywashere/password-manager"></a></em>
+            <em
+                ><a
+                    id="version"
+                    href="https://github.com/garrywashere/password-manager"
+                ></a
+            ></em>
 
             <script>
                 fetch("/version")

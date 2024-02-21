@@ -8,7 +8,7 @@
 -   Confirmation before deleting accounts ⚠️🚫
 -   Account deletion page 🗑️
 -   Make the top left 'Password Manager' text 'fancy' when hovered over ✨
--   Add Signup button to header when no user is logged in, to simplify account creation process 📝
+-   ~~Add Signup button to header when no user is logged in, to simplify account creation process 📝~~
 -   Make tabs underline when 'active', to show the user where they currently are 📌
 -   Fix bugs 🐞
 -   Add encryption 🎉🔐

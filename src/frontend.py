@@ -93,6 +93,9 @@ def new_user():
         "signup.html", login_page=True, title="Create Account", error=error
     )
 
+@app.route("/password-reset")
+def password_reset():
+    return jsonify("Coming soon.")
 
 @app.route("/list-logins")
 def list_logins():
