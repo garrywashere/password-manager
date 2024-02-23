@@ -25,8 +25,8 @@ def save(user):
         pickle.dump(user, file)
 
 
-def sort_results(results, sort_by=None, descending=False):
-    return sorted(results, key=lambda x: (x.views, x.username), reverse=(True, False))
+def sort_results(results):
+    return sorted(results, key=lambda x: (x.views, x.username), reverse=True)
 
 
 def get_version():
@@ -288,6 +288,20 @@ def change_password():
 
 
 ### PROFILE/DELETE
+@app.route("/profile/delete")
+def delete_profile():
+    username = login_status()
+    confirmed = request.args.get("confirmed")
+    if username and confirmed:
+        os.remove(f"./data/{username}.bin")
+        session.clear()
+        return redirect("/")
+    elif username:
+        return render_template(
+            "delete-profile.html", title="Delete Profile", login_page=True
+        )
+    else:
+        return redirect("/login")
 
 
 @app.route("/logout")
