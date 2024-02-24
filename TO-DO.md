@@ -6,7 +6,7 @@
 -   ~~Remove 'Home' tab when no User is logged in 🏡❌~~
 -   ~~Randomly generated app token for security 🔒~~
 -   Confirmation before deleting accounts ⚠️🚫
--   Account deletion page 🗑️
+-   ~~Account deletion page 🗑️~~
 -   ~~Add Signup button to header when no user is logged in, to simplify account creation process 📝~~
 -   Make tabs underline when 'active', to show the user where they currently are 📌
 -   Fix bugs 🐞
