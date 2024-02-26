@@ -1,9 +1,3 @@
-function login_error() {
-    alert(
-        "The Username or Password you entered are not recognised. Please try again or reset your password."
-    );
-}
-
 function generate_password() {
     const lower_char_bank = Array.from("abcdefghijklmnopqrstuvwxyz");
     const upper_char_bank = Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
