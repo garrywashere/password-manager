@@ -42,7 +42,7 @@ class User:
     def add_cred(
         self,
         username,
-        password=generator.generate(8, 1),
+        password,
         email=None,
         website=None,
         notes=None,

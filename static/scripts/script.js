@@ -4,111 +4,88 @@ function login_error() {
     );
 }
 
-function generatePassword() {
-    // Character banks for lowercase, uppercase, digits, and special characters
-    const lowerCharBank = Array.from("abcdefghijklmnopqrstuvwxyz");
-    const upperCharBank = Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-    const digiBank = Array.from("0123456789");
-    const specBank = Array.from("!@#$%^&*_-");
+function generate_password() {
+    const lower_char_bank = Array.from("abcdefghijklmnopqrstuvwxyz");
+    const upper_char_bank = Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    const digi_bank = Array.from("0123456789");
+    const spec_bank = Array.from("!@#$%^&*_-");
 
-    // Get input values
-    const lengthInput = document.getElementById("length");
-    const strengthInput = document.getElementById("strength");
+    // Check if length_input and strength_input are present
+    const length_input = document.getElementById("length");
+    const strength_input = document.getElementById("strength");
 
-    // Convert input values to numbers, defaulting to 1 if not valid
-    const length = parseInt(lengthInput.value) || 1;
-    const strength = parseInt(strengthInput.value) || 1;
+    // Set default values if inputs are not found
+    const length = length_input ? parseInt(length_input.value) || 8 : 8;
+    const strength = strength_input ? parseInt(strength_input.value) || 1 : 1;
 
-    // Combine all character banks
-    const allChars = [
-        ...lowerCharBank,
-        ...upperCharBank,
-        ...digiBank,
-        ...specBank,
+    const all_chars = [
+        ...lower_char_bank,
+        ...upper_char_bank,
+        ...digi_bank,
+        ...spec_bank,
     ];
 
-    // Ensure strength is at least 1
-    const effectiveStrength = strength < 1 ? 1 : strength;
+    const effective_strength = Math.max(strength, 1);
 
-    // Set minimum length based on strength
-    const minLength = effectiveStrength * 4;
-    const passwordLength = length < minLength ? minLength : length;
+    const min_length = effective_strength * 4;
+    const password_length = Math.max(length, min_length);
 
-    let running = true;
-    let password; // Declare password outside the loop
-    while (running) {
-        let lowerCharCount = 0,
-            upperCharCount = 0,
-            digiCount = 0,
-            specCount = 0;
-        password = []; // Initialize password here
+    let password;
+    do {
+        password = Array.from(
+            { length: password_length },
+            () => all_chars[Math.floor(Math.random() * all_chars.length)]
+        );
 
-        // Generate a random password
-        for (let i = 0; i < passwordLength; i++) {
-            password.push(
-                allChars[Math.floor(Math.random() * allChars.length)]
-            );
-        }
-
-        // Count the occurrences of each character type
-        lowerCharCount = password.filter((char) =>
-            lowerCharBank.includes(char)
-        ).length;
-        upperCharCount = password.filter((char) =>
-            upperCharBank.includes(char)
-        ).length;
-        digiCount = password.filter((char) => digiBank.includes(char)).length;
-        specCount = password.filter((char) => specBank.includes(char)).length;
-
-        // Check if the password meets the strength criteria
-        if (
-            lowerCharCount >= effectiveStrength &&
-            upperCharCount >= effectiveStrength &&
-            digiCount >= effectiveStrength &&
-            specCount >= effectiveStrength
-        ) {
-            running = false;
-        }
+        const char_counts = {
+            lower: password.filter((char) => lower_char_bank.includes(char))
+                .length,
+            upper: password.filter((char) => upper_char_bank.includes(char))
+                .length,
+            digi: password.filter((char) => digi_bank.includes(char)).length,
+            spec: password.filter((char) => spec_bank.includes(char)).length,
+        };
 
         if (
-            [lowerCharCount, upperCharCount, digiCount, specCount].every(
-                (count) => count >= effectiveStrength
+            Object.values(char_counts).every(
+                (count) => count >= effective_strength
             )
         ) {
-            running = false;
+            break;
         }
-    }
+    } while (true);
 
-    // Output the password to the <p> tag with the id "pass"
-    const passOutput = document.getElementById("password");
-    passOutput.textContent = password.join("");
+    return password.join("");
+}
+
+function fill_text() {
+    const text = document.getElementById("password");
+    text.textContent = generate_password();
+}
+
+function fill_value() {
+    const value = document.getElementById("password");
+    value.value = generate_password();
 }
 
 function copy(id) {
     // Find the <p> tag with id "username"
     var usernameElement = document.getElementById(id);
 
-    // Check if the element exists
-    if (usernameElement) {
-        // Create a range and select the text content
-        var range = document.createRange();
-        range.selectNode(usernameElement);
+    // Create a range and select the text content
+    var range = document.createRange();
+    range.selectNode(usernameElement);
 
-        // Create a selection and add the range
-        var selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
+    // Create a selection and add the range
+    var selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
 
-        // Copy the selected text to the clipboard
-        document.execCommand("copy");
+    // Copy the selected text to the clipboard
+    document.execCommand("copy");
 
-        // Clear the selection
-        selection.removeAllRanges();
+    // Clear the selection
+    selection.removeAllRanges();
 
-        alert("Copied " + id)
-
-    } else {
-        // The element with id "username" was not found
-        console.error("Element not found.");
-    }
+    alert("Copied " + id);
 }

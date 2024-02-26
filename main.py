@@ -7,6 +7,7 @@ if __name__ == "__main__":
 
     clear = lambda: os.system("clear") if os.name == "posix" else os.system("cls")
     clear()
+
     if not os.path.exists("./data"):
         os.mkdir("./data")
 
