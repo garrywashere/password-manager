@@ -69,22 +69,17 @@ function fill_value() {
 }
 
 function copy(id) {
-    // Find the <p> tag with id "username"
-    var usernameElement = document.getElementById(id);
+    var username_element = document.getElementById(id);
 
-    // Create a range and select the text content
     var range = document.createRange();
-    range.selectNode(usernameElement);
+    range.selectNode(username_element);
 
-    // Create a selection and add the range
     var selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
 
-    // Copy the selected text to the clipboard
     document.execCommand("copy");
 
-    // Clear the selection
     selection.removeAllRanges();
 
     alert("Copied " + id);
