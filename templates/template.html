@@ -38,12 +38,14 @@
                         >Hi, {{ username.capitalize() }}</span
                     >
                     <button
+                        type="button"
                         class="logout-btn"
                         onclick="window.location.href='/profile'"
                     >
                         Profile
                     </button>
                     <button
+                        type="button"
                         class="logout-btn"
                         onclick="window.location.href='/logout'"
                     >
@@ -51,12 +53,14 @@
                     </button>
                     {% elif not username %}
                     <button
+                        type="button"
                         class="logout-btn"
                         onclick="window.location.href='/login'"
                     >
                         Login
                     </button>
                     <button
+                        type="button"
                         class="logout-btn"
                         onclick="window.location.href='/signup'"
                     >

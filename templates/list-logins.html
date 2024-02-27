@@ -1,8 +1,8 @@
 {% extends "template.html" %} {% block main %}
 
 <h1>{{ username.capitalize() }}'s Saved Accounts</h1>
-<button onclick="window.location.href='/new-login'">New Account</button>
-<button onclick="window.location.href='/search-logins'">Search</button>
+<button type="button" onclick="window.location.href='/new-login'">New Account</button>
+<button type="button" onclick="window.location.href='/search-logins'">Search</button>
 
 {% if creds %}
 <table class="table">
@@ -21,17 +21,17 @@
         <td>{{ cred.website }}</td>
         <td>
             <button
-                onclick="window.location.href='/view-login?id={{ cred.id }}'"
+                type="button" onclick="window.location.href='/view-login?id={{ cred.id }}'"
             >
                 View
             </button>
             <button
-                onclick="window.location.href='/edit-login?id={{ cred.id }}'"
+                type="button" onclick="window.location.href='/edit-login?id={{ cred.id }}'"
             >
                 Edit
             </button>
             <button
-                onclick="window.location.href='/delete-login?id={{ cred.id }}'"
+                type="button" onclick="window.location.href='/delete-login?id={{ cred.id }}'"
             >
                 Delete
             </button>

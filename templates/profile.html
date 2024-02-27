@@ -3,8 +3,8 @@
 <h1>{{ username.capitalize() }}'s Profile</h1>
 <div class="box">
     <h2>What would you like to do?</h2>
-    <button onclick="window.location.href='/profile/change-password'">Change password</button>
+    <button type="button" onclick="window.location.href='/profile/change-password'">Change password</button>
     <br><br>
-    <button onclick="window.location.href='/profile/delete'" style="background-color: red;">Delete account</button>
+    <button type="button" onclick="window.location.href='/profile/delete'" style="background-color: red;">Delete account</button>
 </div>
 {% endblock %}

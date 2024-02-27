@@ -1,7 +1,7 @@
 {% extends "template.html" %} {% block main %}
 
 <h1>Search Saved Accounts</h1>
-<button onclick="window.location.href='/list-logins'">Back</button>
+<button type="button" onclick="window.location.href='/list-logins'">Back</button>
 <br /><br />
 
 <form class="box" method="GET" action="/search-logins">
@@ -30,17 +30,17 @@
         <td>{{ cred.website }}</td>
         <td>
             <button
-                onclick="window.location.href='/view-login?id={{ cred.id }}'"
+                type="button" onclick="window.location.href='/view-login?id={{ cred.id }}'"
             >
                 View
             </button>
             <button
-                onclick="window.location.href='/edit-login?id={{ cred.id }}'"
+                type="button" onclick="window.location.href='/edit-login?id={{ cred.id }}'"
             >
                 Edit
             </button>
             <button
-                onclick="window.location.href='/delete-login?id={{ cred.id }}'"
+                type="button" onclick="window.location.href='/delete-login?id={{ cred.id }}'"
             >
                 Delete
             </button>
