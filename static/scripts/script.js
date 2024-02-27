@@ -52,16 +52,6 @@ function generate_password() {
     return password.join("");
 }
 
-function fill_text() {
-    const text = document.getElementById("password");
-    text.textContent = generate_password();
-}
-
-function fill_value() {
-    const value = document.getElementById("password");
-    value.value = generate_password();
-}
-
 function copy(id) {
     var username_element = document.getElementById(id);
 
@@ -77,4 +67,22 @@ function copy(id) {
     selection.removeAllRanges();
 
     alert("Copied " + id);
+}
+
+function toggle_password() {
+    var password = document.getElementById("password");
+
+    password.type = document.getElementById("toggle").checked
+        ? "text"
+        : "password";
+}
+
+function fill_text() {
+    const text = document.getElementById("password");
+    text.textContent = generate_password();
+}
+
+function fill_value() {
+    const value = document.getElementById("password");
+    value.value = generate_password();
 }

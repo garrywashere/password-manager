@@ -1,23 +1,52 @@
 {% extends "template.html" %} {% block main %}
 
 <h1>New Account</h1>
-<button type="button" onclick="window.location.href='/list-logins'">Cancel</button>
+<button type="button" onclick="window.location.href='/list-logins'">
+    Cancel
+</button>
 <br /><br />
 
 <div class="box">
     <h2>Please enter the details for the new account</h2>
     <form method="POST" action="/new-login">
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" maxlength="32" required />
+        <input
+            type="text"
+            id="username"
+            name="username"
+            maxlength="32"
+            required
+        />
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" maxlength="32" required />
-        
+        <input
+            type="password"
+            id="password"
+            name="password"
+            maxlength="32"
+            required
+        />
+
         <div>
-            <button type="button" onclick="window.document.getElementById('password').value = ''">Clear</button>
+            <label for="toggle">Show Password:</label>
+            <input
+                type="checkbox"
+                id="toggle"
+                name="toggle"
+                onclick="javascript:toggle_password();"
+            />
+
+            &emsp;
+
+            <button
+                type="button"
+                onclick="document.getElementById('password').value = ''"
+            >
+                Clear
+            </button>
             <button type="button" onclick="fill_value()">Regenerate</button>
         </div>
-        <br>
+        <br />
 
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" maxlength="32" />

@@ -1,7 +1,9 @@
 {% extends "template.html" %} {% block main %}
 
 <h1>Editing Account</h1>
-<button type="button" onclick="window.location.href='/list-logins'">Cancel</button>
+<button type="button" onclick="window.location.href='/list-logins'">
+    Cancel
+</button>
 <br /><br />
 
 <div class="box">
@@ -28,25 +30,49 @@
         />
 
         <div>
-            <button type="button" onclick="window.document.getElementById('password').value = ''">Clear</button>
+            <label for="toggle">Show Password:</label>
+            <input
+                type="checkbox"
+                id="toggle"
+                name="toggle"
+                onclick="javascript:toggle_password();"
+            />
+
+            &emsp;
+
+            <button
+                type="button"
+                onclick="document.getElementById('password').value = ''"
+            >
+                Clear
+            </button>
             <button type="button" onclick="fill_value()">Regenerate</button>
         </div>
-        <br>
+        <br />
 
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="{{ cred.email }}" maxlength="32" />
+        <input
+            type="email"
+            id="email"
+            name="email"
+            value="{{ cred.email }}"
+            maxlength="32"
+        />
 
         <label for="website">Website:</label>
         <input
             type="url"
             id="website"
             name="website"
-            value="{{ cred.website }}" maxlength="32"
+            value="{{ cred.website }}"
+            maxlength="32"
         />
 
         <label for="notes">Notes:</label>
         <!-- <input type="text" id="notes" name="notes"  /> -->
-        <textarea rows="5" id="notes" name="notes" maxlength="1000">{{ cred.notes }}</textarea>
+        <textarea rows="5" id="notes" name="notes" maxlength="1000">
+{{ cred.notes }}</textarea
+        >
 
         <button type="submit">Save</button>
     </form>
