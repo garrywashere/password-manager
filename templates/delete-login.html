@@ -1,19 +1,17 @@
 {% extends "template.html" %} {% block main %}
 
 <div class="login-box">
-    <h2>Deleting Profile</h2>
+    <h2>Deleting Account</h2>
     <h3>Are you sure?</h3>
     <p>This action cannot be reversed.</p>
-    <em>Please make sure your saved accounts are backed up.</em>
-    <br /><br />
     <div>
-        <button type="button" onclick="window.location.href='/profile'">
+        <button type="button" onclick="window.location.href='/list-logins'">
             Cancel
         </button>
         <button
             type="button"
             style="background-color: red"
-            onclick="window.location.href='/profile/delete?confirmed=yes'"
+            onclick="window.location.href='/delete-login?id={{ id }}&confirmed=True'"
         >
             Delete
         </button>

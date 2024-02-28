@@ -214,12 +214,21 @@ def delete_login():
     username = login_status()
     if username:
         id = request.args.get("id")
-        user = recall(username)
-        user.del_cred(id)
-        save(user)
-        return redirect("/list-logins")
+        confirmed = request.args.get("confirmed")
+        if id and confirmed:
+            user = recall(username)
+            user.del_cred(id)
+            save(user)
+            return redirect("/list-logins")
+        elif id and not confirmed:
+            return render_template(
+                "delete-login.html", title="Delete Account", login_page=True, id=id
+            )
+
+        else:
+            return redirect("/list-logins")
     else:
-        redirect("/login")
+        return redirect("/login")
 
 
 @app.route("/password-generator")
@@ -287,7 +296,6 @@ def change_password():
         return redirect("/login")
 
 
-### PROFILE/DELETE
 @app.route("/profile/delete")
 def delete_profile():
     username = login_status()
