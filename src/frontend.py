@@ -144,7 +144,7 @@ def search_login():
             "search.html", title="Search", username=username, creds=results
         )
     else:
-        redirect("/login")
+        return redirect("/login")
 
 
 @app.route("/view-login")

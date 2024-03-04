@@ -1,17 +1,28 @@
 {% extends "template.html" %} {% block main %}
 
 <h1>Search Saved Accounts</h1>
-<button type="button" onclick="window.location.href='/list-logins'">Back</button>
+<button type="button" onclick="window.location.href='/list-logins'">
+    Back
+</button>
 <br /><br />
 
 <form class="box" method="GET" action="/search-logins">
     <label for="search">Search:</label>
-    <input type="search" id="query" name="query" maxlength="32" autofocus required />
+    <input
+        type="search"
+        id="query"
+        name="query"
+        maxlength="32"
+        autofocus
+        required
+    />
 
     <button type="submit">Search</button>
 </form>
 
-{% if creds %}
+{% if creds == "404" %}
+<p>We couldn't find anything that matches your query.</p>
+{% elif creds %}
 <br />
 <a href="/search-logins">Clear results...</a>
 <table class="table">
@@ -30,17 +41,20 @@
         <td>{{ cred.website }}</td>
         <td>
             <button
-                type="button" onclick="window.location.href='/view-login?id={{ cred.id }}'"
+                type="button"
+                onclick="window.location.href='/view-login?id={{ cred.id }}'"
             >
                 View
             </button>
             <button
-                type="button" onclick="window.location.href='/edit-login?id={{ cred.id }}'"
+                type="button"
+                onclick="window.location.href='/edit-login?id={{ cred.id }}'"
             >
                 Edit
             </button>
             <button
-                type="button" onclick="window.location.href='/delete-login?id={{ cred.id }}'"
+                type="button"
+                onclick="window.location.href='/delete-login?id={{ cred.id }}'"
             >
                 Delete
             </button>
@@ -48,4 +62,5 @@
     </tr>
     {% endfor %}
 </table>
+
 {% endif %} {% endblock %}

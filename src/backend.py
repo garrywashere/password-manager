@@ -65,4 +65,6 @@ class User:
         for cred in self.__creds:
             if query in cred.username or query in cred.email or query in cred.website:
                 creds.append(cred)
+        if not creds:
+            creds = "404"
         return creds
