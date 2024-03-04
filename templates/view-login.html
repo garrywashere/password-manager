@@ -29,7 +29,7 @@
     {% endif %} {% if cred.website %}
     <tr>
         <th>Website</th>
-        <td>{{ cred.website }}</td>
+        <td><a target="_blank" href="{{ cred.website }}">{{ cred.website }}</a></td>
     </tr>
     {% endif %} {% if cred.notes %}
     <tr>

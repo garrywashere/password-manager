@@ -1,8 +1,8 @@
 {% extends "template.html" %} {% block main %}
 
 <h1>{{ username.capitalize() }}'s Profile</h1>
+<h2>What would you like to do?</h2>
 <div class="box">
-    <h2>What would you like to do?</h2>
     <button type="button" onclick="window.location.href='/profile/change-password'">Change password</button>
     <br><br>
     <button type="button" onclick="window.location.href='/profile/delete'" style="background-color: red;">Delete account</button>

@@ -6,8 +6,8 @@
 </button>
 <br /><br />
 
+<h2>Please enter the updated details for the account</h2>
 <div class="box">
-    <h2>Please enter the updated details for the account</h2>
     <form method="POST" action="/edit-login?id={{ cred.id }}">
         <label for="username">Username:</label>
         <input
@@ -15,6 +15,7 @@
             id="username"
             name="username"
             value="{{ cred.username }}"
+            placeholder="{{ cred.username }}"
             maxlength="32"
             required
         />
@@ -56,6 +57,7 @@
             id="email"
             name="email"
             value="{{ cred.email }}"
+            placeholder="{{ cred.email }}"
             maxlength="32"
         />
 
@@ -65,6 +67,7 @@
             id="website"
             name="website"
             value="{{ cred.website }}"
+            placeholder="{{ cred.website }}"
             maxlength="32"
         />
 

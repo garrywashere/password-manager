@@ -1,6 +1,7 @@
 {% extends "template.html" %} {% block main %}
 
 <h1>{{ username.capitalize() }}'s Saved Accounts</h1>
+<div class="box">
 <button type="button" onclick="window.location.href='/new-login'">New Account</button>
 <button type="button" onclick="window.location.href='/search-logins'">Search</button>
 
@@ -18,7 +19,7 @@
         <td id="username" onclick="copy('username')">{{ cred.username }}</td>
         <td class="secret" id="password" onclick="copy('password')">{{ cred.password }}</td>
         <td>{{ cred.email }}</td>
-        <td>{{ cred.website }}</td>
+        <td><a target="_blank" href="{{ cred.website }}">{{ "/".join(cred.website.split("/")[2:]) }}</a></td>
         <td>
             <button
                 type="button" onclick="window.location.href='/view-login?id={{ cred.id }}'"
@@ -41,4 +42,5 @@
 </table>
 {% elif not creds %}
 <p>Hmm... it's a little empty here...</p>
+</div>
 {% endif %} {% endblock %}
