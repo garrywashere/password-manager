@@ -1,8 +1,5 @@
-from src import password_generator
 import argon2, hashlib
 
-# Initialise the password generator
-generator = password_generator.Generator()
 hasher = argon2.PasswordHasher()
 
 
