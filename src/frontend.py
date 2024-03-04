@@ -94,9 +94,9 @@ def new_user():
     )
 
 
-@app.route("/password-reset")
+@app.route("/reset-password")
 def password_reset():
-    return jsonify("Coming soon.")
+    return render_template("/reset-password.html", login_page=True)
 
 
 @app.route("/list-logins")
