@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, flash, jsonify
 from src import backend
-import pickle, os
+import pickle, qrcode, os
 
 app = Flask(__name__, template_folder="../templates", static_folder="../static")
 app.secret_key = os.urandom(16).hex()
@@ -88,11 +88,19 @@ def new_user():
             new_user = backend.User(username, password)
             save(new_user)
             session["username"] = username
-            return redirect("/")
+            return redirect("/totp-enroll")
     return render_template(
         "signup.html", login_page=True, title="Create Account", error=error
     )
 
+@app.route("/totp-enroll")
+def totp_enroll():
+    username = login_status()
+    if username:
+        user = recall(username)
+        code = user.totp_get()
+        
+        return render_template("totp-enroll.html", login_page=True, title="Enroll 2FA", error=error)
 
 @app.route("/reset-password")
 def password_reset():

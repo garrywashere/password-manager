@@ -1,0 +1,29 @@
+{% extends "template.html" %} {% block main %}
+
+<div class="login-box">
+    <h2>Two-Factor Authentication</h2>
+    <img
+    <form method="POST" action="/totp-enroll">
+        <label for="code">Code:</label>
+        <input
+            type="text"
+            id="code"
+            name="code"
+            maxlength="6"
+            autofocus
+            required
+        />
+
+        {% if error %}
+        <p class="error">Login failed</p>
+        <a href="/reset-password">Forgot password?</a>
+        <br />
+        {% endif %}
+
+        <button type="submit">Login</button>
+        <br />
+        <a class="link" href="/signup">Create account</a>
+    </form>
+</div>
+
+{% endblock %}

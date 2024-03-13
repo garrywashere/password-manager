@@ -1,4 +1,4 @@
-import argon2, hashlib
+import argon2, hashlib, pyotp, os
 
 hasher = argon2.PasswordHasher()
 
@@ -24,6 +24,7 @@ class User:
     def __init__(self, username, master_password):
         self.username = username
         self.__password = hasher.hash(master_password)
+        self.__totp_key = os.urandom(16).hex()
         self.__creds = []
 
     def verify_password(self, password):
@@ -35,6 +36,13 @@ class User:
 
     def change_password(self, newPassword):
         self.__password = hasher.hash(newPassword)
+
+    def totp_get(self):
+        return self.__totp_key
+
+    def totp_verify(self, code):
+        totp = pyotp.TOTP(self.__totp_key)
+        return totp.verify(code)
 
     def add_cred(
         self,
