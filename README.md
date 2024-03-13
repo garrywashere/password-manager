@@ -104,8 +104,10 @@ That's it
 
 2. Create an account by pressing 'Login' in the top right, then 'Create Account'
 
-3. The rest is self-explanatory ;)
+3. Go through the TOTP enrollment process
 
-(Don't worry I'll add a proper manual soon)
+4. Once you're logged in, use the top navigation bar to select different functions
+
+5. Enjoy!
 
 ![thanks](/static/images/thanks.png)
