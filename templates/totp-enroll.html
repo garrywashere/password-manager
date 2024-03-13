@@ -2,9 +2,13 @@
 
 <div class="login-box">
     <h2>Two-Factor Authentication</h2>
-    <img
     <form method="POST" action="/totp-enroll">
-        <label for="code">Code:</label>
+        <img
+            src="{{ url_for('static', filename='private/'+image_name ) }}"
+            onclick="alert('Scan this with your 2FA app (e.g. Google Authenticator)')"
+        />
+        <br /><br />
+        <label for="code">Verify Code:</label>
         <input
             type="text"
             id="code"
@@ -15,14 +19,11 @@
         />
 
         {% if error %}
-        <p class="error">Login failed</p>
-        <a href="/reset-password">Forgot password?</a>
+        <p class="error">Code incorrect</p>
         <br />
         {% endif %}
 
-        <button type="submit">Login</button>
-        <br />
-        <a class="link" href="/signup">Create account</a>
+        <button type="submit">Confirm</button>
     </form>
 </div>
 

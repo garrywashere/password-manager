@@ -9,15 +9,23 @@ app.secret_key = os.urandom(16).hex()
 def login_status():
     try:
         username = session["username"]
-        return username
     except KeyError:
-        return False
+        username = False
+    try:
+        logged_in = session["logged_in"]
+    except KeyError:
+        logged_in = False
+
+    return username, logged_in
 
 
 def recall(username):
-    with open(f"./data/{username}.bin", "rb") as file:
-        user = pickle.load(file)
-    return user
+    try:
+        with open(f"./data/{username}.bin", "rb") as file:
+            user = pickle.load(file)
+            return user
+    except:
+        return False
 
 
 def save(user):
@@ -40,11 +48,13 @@ def get_version():
 
 @app.route("/")
 def index():
-    username = login_status()
-    if username:
+    username, logged_in = login_status()
+    if username and logged_in:
         user = recall(username)
         creds = sort_results(user.list_creds())[:10]
         return render_template("index.html", username=username, creds=creds)
+    elif username:
+        return redirect("/totp-verify")
     return render_template("index.html")
 
 
@@ -63,7 +73,7 @@ def login():
             user = recall(username)
             if user.verify_password(password):
                 session["username"] = username
-                return redirect("/")
+                return redirect("/totp-verify")
             else:
                 login_error = True
         else:
@@ -93,14 +103,64 @@ def new_user():
         "signup.html", login_page=True, title="Create Account", error=error
     )
 
-@app.route("/totp-enroll")
+
+@app.route("/totp-enroll", methods=["GET", "POST"])
 def totp_enroll():
-    username = login_status()
-    if username:
+    error = False
+    username, logged_in = login_status()
+    if username and request.method == "POST":
         user = recall(username)
-        code = user.totp_get()
-        
-        return render_template("totp-enroll.html", login_page=True, title="Enroll 2FA", error=error)
+        code = request.form["code"]
+        if user.totp_verify(str(code)):
+            session["logged_in"] = True
+            return redirect("/")
+        else:
+            return render_template(
+                "totp-enroll.html",
+                login_page=True,
+                title="Enroll 2FA",
+                error=True,
+                image_name=username,
+            )
+    elif username:
+        user = recall(username)
+        qr = qrcode.make(user.totp_get())
+        if not os.path.exists("./static/private"):
+            os.mkdir("./static/private")
+        qr.save("./static/private/" + username)
+        return render_template(
+            "totp-enroll.html",
+            login_page=True,
+            title="Enroll 2FA",
+            error=error,
+            image_name=username,
+        )
+    else:
+        return redirect("/")
+
+
+@app.route("/totp-verify", methods=["GET", "POST"])
+def totp_verify():
+    error = False
+    username, logged_in = login_status()
+    if username and logged_in:
+        return redirect("/")
+    elif username:
+        if request.method == "POST":
+            code = request.form["code"]
+            user = recall(username)
+            if user.totp_verify(str(code)):
+                session["logged_in"] = True
+                return redirect("/")
+            else:
+                return render_template(
+                    "totp-verify.html", login_page=True, title="Verify 2FA", error=True
+                )
+        return render_template(
+            "totp-verify.html", login_page=True, title="Verify 2FA", error=error
+        )
+    return redirect()
+
 
 @app.route("/reset-password")
 def password_reset():
@@ -109,21 +169,23 @@ def password_reset():
 
 @app.route("/list-logins")
 def list_logins():
-    username = login_status()
-    if username:
+    username, logged_in = login_status()
+    if username and logged_in:
         user = recall(username)
         creds = sort_results(user.list_creds())
         return render_template(
             "list-logins.html", title="Saved Accounts", username=username, creds=creds
         )
+    elif username:
+        return redirect("/totp-verify")
     else:
         return redirect("/login")
 
 
 @app.route("/new-login", methods=["GET", "POST"])
 def new_login():
-    username = login_status()
-    if username:
+    username, logged_in = login_status()
+    if username and logged_in:
         if request.method == "POST":
             _username = request.form["username"]
             password = request.form["password"]
@@ -135,13 +197,15 @@ def new_login():
             save(user)
             return redirect("/list-logins")
         return render_template("new-login.html", title="Creating...", username=username)
+    elif username:
+        return redirect("/totp-verify")
     else:
         return redirect("/login")
 
 
 @app.route("/search-logins")
 def search_login():
-    username = login_status()
+    username, logged_in = login_status()
     if username:
         query = request.args.get("query")
         results = []
@@ -151,14 +215,16 @@ def search_login():
         return render_template(
             "search.html", title="Search", username=username, creds=results
         )
+    elif username:
+        return redirect("/totp-verify")
     else:
         return redirect("/login")
 
 
 @app.route("/view-login")
 def view_login():
-    username = login_status()
-    if username:
+    username, logged_in = login_status()
+    if username and logged_in:
         id = request.args.get("id")
         if id:
             user = recall(username)
@@ -183,14 +249,16 @@ def view_login():
         return render_template(
             "view-login.html", title="Viewing...", username=username, cred=result
         )
+    elif username:
+        return redirect("/totp-verify")
     else:
         redirect("/login")
 
 
 @app.route("/edit-login", methods=["GET", "POST"])
 def edit_login():
-    username = login_status()
-    if username:
+    username, logged_in = login_status()
+    if username and logged_in:
         id = request.args.get("id")
         if id:
             user = recall(username)
@@ -213,14 +281,16 @@ def edit_login():
         return render_template(
             "edit-login.html", title="Editing...", username=username, cred=result
         )
+    elif username:
+        return redirect("/totp-verify")
     else:
         return redirect("/login")
 
 
 @app.route("/delete-login")
 def delete_login():
-    username = login_status()
-    if username:
+    username, logged_in = login_status()
+    if username and logged_in:
         id = request.args.get("id")
         confirmed = request.args.get("confirmed")
         if id and confirmed:
@@ -232,16 +302,17 @@ def delete_login():
             return render_template(
                 "delete-login.html", title="Delete Account", login_page=True, id=id
             )
-
         else:
             return redirect("/list-logins")
+    elif username:
+        return redirect("/totp-verify")
     else:
         return redirect("/login")
 
 
 @app.route("/password-generator")
 def password_generator():
-    username = login_status()
+    username, logged_in = login_status()
     if username:
         return render_template(
             "password-generator.html", title="Password Generator", username=username
@@ -253,32 +324,36 @@ def password_generator():
 ### SETTINGS
 @app.route("/settings")
 def settings():
-    username = login_status()
-    if username:
+    username, logged_in = login_status()
+    if username and logged_in:
         return render_template(
             "settings.html", title="Settings", username=username, verion=version
         )
+    elif username:
+        return redirect("/totp-verify")
     else:
         return redirect("/login")
 
 
 @app.route("/profile")
 def profile():
-    username = login_status()
-    if username:
+    username, logged_in = login_status()
+    if username and logged_in:
         return render_template(
             "profile.html",
             title=f"{username.capitalize()}'s Profile",
             username=username,
         )
+    elif username:
+        return redirect("/totp-verify")
     else:
         return redirect("/login")
 
 
 @app.route("/profile/change-password", methods=["GET", "POST"])
 def change_password():
-    username = login_status()
-    if username:
+    username, logged_in = login_status()
+    if username and logged_in:
         error = False
         if request.method == "POST":
             current = request.form["password"]
@@ -300,19 +375,21 @@ def change_password():
             login_page=True,
             error=error,
         )
+    elif username:
+        return redirect("/totp-verify")
     else:
         return redirect("/login")
 
 
 @app.route("/profile/delete")
 def delete_profile():
-    username = login_status()
+    username, logged_in = login_status()
     confirmed = request.args.get("confirmed")
-    if username and confirmed:
+    if username and logged_in and confirmed:
         os.remove(f"./data/{username}.bin")
         session.clear()
         return redirect("/")
-    elif username:
+    elif username and logged_in:
         return render_template(
             "delete-profile.html", title="Delete Profile", login_page=True
         )
@@ -323,4 +400,5 @@ def delete_profile():
 @app.route("/logout")
 def logout_user():
     session.pop("username", default=None)
+    session.pop("logged_in", default=None)
     return redirect("/")

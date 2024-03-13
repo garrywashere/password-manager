@@ -24,7 +24,7 @@ class User:
     def __init__(self, username, master_password):
         self.username = username
         self.__password = hasher.hash(master_password)
-        self.__totp_key = os.urandom(16).hex()
+        self.__totp_key = pyotp.random_base32()
         self.__creds = []
 
     def verify_password(self, password):
@@ -38,7 +38,9 @@ class User:
         self.__password = hasher.hash(newPassword)
 
     def totp_get(self):
-        return self.__totp_key
+        return pyotp.totp.TOTP(self.__totp_key).provisioning_uri(
+            name=self.username, issuer_name="Password Manager"
+        )
 
     def totp_verify(self, code):
         totp = pyotp.TOTP(self.__totp_key)
