@@ -4,11 +4,9 @@ function generate_password() {
     const digi_bank = Array.from("0123456789");
     const spec_bank = Array.from("!@#$%^&*_-");
 
-    // Check if length_input and strength_input are present
     const length_input = document.getElementById("length");
     const strength_input = document.getElementById("strength");
 
-    // Set default values if inputs are not found
     const length = length_input ? parseInt(length_input.value) || 8 : 8;
     const strength = strength_input ? parseInt(strength_input.value) || 1 : 1;
 

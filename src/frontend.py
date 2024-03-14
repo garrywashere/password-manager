@@ -1,12 +1,22 @@
 from flask import Flask, render_template, request, session, redirect, flash, jsonify
-from src import backend
-import pickle, qrcode, os
+from src import backend  # Importing backend module
+import pickle  # Importing pickle for object serialization
+import qrcode  # Importing qrcode for QR code generation
+import os  # Importing os for miscellaneous operating system interfaces
 
+# Creating a Flask application
 app = Flask(__name__, template_folder="../templates", static_folder="../static")
+# Generating a secret key for session management
 app.secret_key = os.urandom(16).hex()
 
 
 def login_status():
+    """
+    Check the login status of the user.
+
+    Returns:
+    - tuple: A tuple containing username and login status.
+    """
     try:
         username = session["username"]
     except KeyError:
@@ -20,6 +30,15 @@ def login_status():
 
 
 def recall(username):
+    """
+    Recall user data from a pickled file.
+
+    Parameters:
+    - username (str): The username of the user.
+
+    Returns:
+    - User or False: The recalled user object or False if retrieval fails.
+    """
     try:
         with open(f"./data/{username}.bin", "rb") as file:
             user = pickle.load(file)
@@ -29,15 +48,36 @@ def recall(username):
 
 
 def save(user):
+    """
+    Save user data into a pickled file.
+
+    Parameters:
+    - user (User): The user object to be saved.
+    """
     with open(f"./data/{user.username}.bin", "wb") as file:
         pickle.dump(user, file)
 
 
 def sort_results(results):
+    """
+    Sort search results by views and username.
+
+    Parameters:
+    - results (list): List of Credential objects.
+
+    Returns:
+    - list: Sorted list of Credential objects.
+    """
     return sorted(results, key=lambda x: (x.views, x.username), reverse=True)
 
 
 def get_version():
+    """
+    Get the current version of the application.
+
+    Returns:
+    - str: The current version of the application.
+    """
     try:
         count = os.popen("git rev-list --count master").read().strip()
     except:
@@ -48,6 +88,12 @@ def get_version():
 
 @app.route("/")
 def index():
+    """
+    Render the index page.
+
+    Returns:
+    - str: Rendered HTML template.
+    """
     username, logged_in = login_status()
     if username and logged_in:
         user = recall(username)
@@ -60,11 +106,23 @@ def index():
 
 @app.route("/version")
 def version():
+    """
+    Get the current version of the application.
+
+    Returns:
+    - str: JSON response containing the application version.
+    """
     return jsonify({"version": get_version()})
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    """
+    Handle user login.
+
+    Returns:
+    - str: Rendered HTML template.
+    """
     login_error = False
     if request.method == "POST":
         username = str(request.form["username"]).lower()
@@ -85,6 +143,12 @@ def login():
 
 @app.route("/signup", methods=["GET", "POST"])
 def new_user():
+    """
+    Handle user signup.
+
+    Returns:
+    - str: Rendered HTML template.
+    """
     error = False
     if request.method == "POST":
         username = str(request.form["username"]).lower()
@@ -106,6 +170,12 @@ def new_user():
 
 @app.route("/totp-enroll", methods=["GET", "POST"])
 def totp_enroll():
+    """
+    Handle TOTP enrollment.
+
+    Returns:
+    - str: Rendered HTML template.
+    """
     error = False
     username, logged_in = login_status()
     if username and request.method == "POST":
@@ -139,9 +209,14 @@ def totp_enroll():
     else:
         return redirect("/")
 
-
 @app.route("/totp-verify", methods=["GET", "POST"])
 def totp_verify():
+    """
+    Handle TOTP verification.
+
+    Returns:
+    - str: Rendered HTML template.
+    """
     error = False
     username, logged_in = login_status()
     if username and logged_in:
@@ -165,11 +240,23 @@ def totp_verify():
 
 @app.route("/reset-password")
 def password_reset():
+    """
+    Render the password reset page.
+
+    Returns:
+    - str: Rendered HTML template.
+    """
     return render_template("/reset-password.html", login_page=True)
 
 
 @app.route("/list-logins")
 def list_logins():
+    """
+    Render the list of saved logins page.
+
+    Returns:
+    - str: Rendered HTML template.
+    """
     username, logged_in = login_status()
     if username and logged_in:
         user = recall(username)
@@ -185,6 +272,12 @@ def list_logins():
 
 @app.route("/new-login", methods=["GET", "POST"])
 def new_login():
+    """
+    Handle addition of new login credentials.
+
+    Returns:
+    - str: Rendered HTML template.
+    """
     username, logged_in = login_status()
     if username and logged_in:
         if request.method == "POST":
@@ -203,9 +296,14 @@ def new_login():
     else:
         return redirect("/login")
 
-
 @app.route("/search-logins")
 def search_login():
+    """
+    Handle searching for login credentials.
+
+    Returns:
+    - str: Rendered HTML template.
+    """
     username, logged_in = login_status()
     if username:
         query = request.args.get("query")
@@ -224,6 +322,12 @@ def search_login():
 
 @app.route("/view-login")
 def view_login():
+    """
+    Render the page to view a specific login credential.
+
+    Returns:
+    - str: Rendered HTML template.
+    """
     username, logged_in = login_status()
     if username and logged_in:
         id = request.args.get("id")
@@ -258,6 +362,12 @@ def view_login():
 
 @app.route("/edit-login", methods=["GET", "POST"])
 def edit_login():
+    """
+    Handle editing of a login credential.
+
+    Returns:
+    - str: Rendered HTML template.
+    """
     username, logged_in = login_status()
     if username and logged_in:
         id = request.args.get("id")
@@ -290,6 +400,12 @@ def edit_login():
 
 @app.route("/delete-login")
 def delete_login():
+    """
+    Handle deletion of a login credential.
+
+    Returns:
+    - str: Rendered HTML template.
+    """
     username, logged_in = login_status()
     if username and logged_in:
         id = request.args.get("id")
@@ -313,6 +429,12 @@ def delete_login():
 
 @app.route("/password-generator")
 def password_generator():
+    """
+    Render the password generator page.
+
+    Returns:
+    - str: Rendered HTML template.
+    """
     username, logged_in = login_status()
     if username:
         return render_template(
@@ -322,9 +444,14 @@ def password_generator():
         return redirect("/login")
 
 
-### SETTINGS
 @app.route("/settings")
 def settings():
+    """
+    Render the settings page.
+
+    Returns:
+    - str: Rendered HTML template.
+    """
     username, logged_in = login_status()
     if username and logged_in:
         return render_template(
@@ -338,6 +465,12 @@ def settings():
 
 @app.route("/profile")
 def profile():
+    """
+    Render the user's profile page.
+
+    Returns:
+    - str: Rendered HTML template.
+    """
     username, logged_in = login_status()
     if username and logged_in:
         return render_template(
@@ -353,6 +486,12 @@ def profile():
 
 @app.route("/profile/change-password", methods=["GET", "POST"])
 def change_password():
+    """
+    Handle changing the user's password.
+
+    Returns:
+    - str: Rendered HTML template.
+    """
     username, logged_in = login_status()
     if username and logged_in:
         error = False
@@ -384,6 +523,12 @@ def change_password():
 
 @app.route("/profile/delete")
 def delete_profile():
+    """
+    Handle deletion of the user's profile.
+
+    Returns:
+    - str: Rendered HTML template.
+    """
     username, logged_in = login_status()
     confirmed = request.args.get("confirmed")
     if username and logged_in and confirmed:
@@ -400,6 +545,12 @@ def delete_profile():
 
 @app.route("/logout")
 def logout_user():
+    """
+    Handle user logout.
+
+    Returns:
+    - str: Redirect to the home page.
+    """
     session.pop("username", default=None)
     session.pop("logged_in", default=None)
     return redirect("/")
