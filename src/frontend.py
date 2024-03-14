@@ -113,6 +113,7 @@ def totp_enroll():
         code = request.form["code"]
         if user.totp_verify(str(code)):
             session["logged_in"] = True
+            os.remove(f"./static/private/{username}")
             return redirect("/")
         else:
             return render_template(
