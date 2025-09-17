@@ -1,15 +1,15 @@
-# 🔑 Password Manager Project
+# Password Manager Project
 
 ![WakaTime](https://wakatime.com/badge/user/018d88ca-6686-4ddc-a648-a108b3febbc3/project/018d8f86-dd38-4eca-93ef-598d3d05e6aa.svg)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/garrywashere/password-manager)
 
-## 👀 Overview
+## Overview
 
 This Python-based Password Manager is designed as part of the OCR Computer Science H446 programming project. The goal of this project is to create a secure and user-friendly password manager to help users manage their passwords effectively.
 
 ![Index](screenshots/Index.png)
 
-## 💡 Features
+## Features
 
 -   **User Authentication:** Allows users to create an account with a unique username and a secure password.
 -   **Password Storage:** Safely stores and encrypts user passwords.
@@ -18,7 +18,7 @@ This Python-based Password Manager is designed as part of the OCR Computer Scien
 -   **User Interface:** A simple and intuitive web interface for user interaction.
 -   **Local Storage:** Provides peace of mind when data is stored locally completely under the users control.
 
-## ⚙️ Requirements
+## Requirements
 
 -   Docker
 -   Git
@@ -30,7 +30,7 @@ This Python-based Password Manager is designed as part of the OCR Computer Scien
 
 That's it
 
-## 🐳 Installation - Docker (Recommended)
+## Installation - Docker (Recommended)
 
 1. Clone the repository:
 
@@ -58,7 +58,7 @@ That's it
 
 5. Proceed to [Usage](#-usage)
 
-## 🛠️ Installation - Bare Metal
+## Installation - Bare Metal
 
 1. Clone the repository:
 
@@ -98,7 +98,7 @@ That's it
 
 7. Proceed to [Usage](#-usage)
 
-## 🚀 Usage
+## Usage
 
 1. Navigate to `https://127.0.0.1:8080/`
 
